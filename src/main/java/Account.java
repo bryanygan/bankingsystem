@@ -3,7 +3,7 @@ public abstract class Account {
 	protected double balance;
 	protected double APR;
 
-	public Account(String accountID, double APR) {
+	protected Account(String accountID, double APR) {
 		this.balance = 0;
 		this.accountID = accountID;
 		this.APR = APR;
