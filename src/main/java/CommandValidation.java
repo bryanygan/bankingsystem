@@ -22,6 +22,51 @@ public class CommandValidation {
 			return false;
 		}
 
+		// take each part of the command to validate
+		String accountType = parts[1]; // second word should be the type "savings", "checking", or "cd"
+		String accountNumber = parts[2]; // third part should be acc number
+		String additionalParam = null; // initial balance, interest rate
+
+		// if command has initial balance or interest, additionalParam is 4th
+		if (parts.length > 3) {
+			additionalParam = parts[3];
+		}
+
+		if (!isValidAccountType(accountType)) {
+			return false;
+		}
+
+		if (!isValidAccountNumber(accountNumber)) {
+			return false;
+		}
+
+		// savings and checking accounts need valid initial balance
+		if (accountType.equals("savings") || accountType.equals("checking")) {
+			if (additionalParam == null || !isPositiveDecimal(additionalParam)) {
+				return false;
+			}
+		}
+		// cd needs valid interest rate
+		else if (accountType.equals("cd")) {
+			if (additionalParam == null || !isPositiveDecimal(additionalParam)) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	private boolean isPositiveDecimal(String str) {
+		try {
+			double value = Double.parseDouble(str);
+
+			if (value <= 0) {
+				return false;
+			}
+		} catch (NumberFormatException e) {
+			return false;
+		}
+
 		return true;
 	}
 
