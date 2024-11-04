@@ -56,14 +56,34 @@ public class CommandValidation {
 		return true;
 	}
 
-	private boolean isPositiveDecimal(String str) {
-		try {
-			double value = Double.parseDouble(str);
+	// same process for deposit commands
+	public boolean validateDepositCommand(String command) {
+		if (command == null) {
+			return false;
+		}
 
-			if (value <= 0) {
-				return false;
-			}
-		} catch (NumberFormatException e) {
+		if (command.isEmpty()) {
+			return false;
+		}
+
+		String[] parts = command.split(" ");
+
+		if (parts.length != 3) {
+			return false;
+		}
+
+		if (!parts[0].equals("deposit")) {
+			return false;
+		}
+
+		String accountNumber = parts[1];
+		String amount = parts[2];
+
+		if (!isValidAccountNumber(accountNumber)) {
+			return false;
+		}
+
+		if (!isPositiveDecimal(amount)) {
 			return false;
 		}
 
@@ -95,4 +115,19 @@ public class CommandValidation {
 		return true;
 	}
 
+	private boolean isPositiveDecimal(String str) {
+		try {
+			// try parsing as double
+			double value = Double.parseDouble(str);
+
+			if (value <= 0) {
+				return false;
+			}
+		} catch (NumberFormatException e) {
+			// if it fails then not valid decimal
+			return false;
+		}
+
+		return true;
+	}
 }
