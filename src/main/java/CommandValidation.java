@@ -21,6 +21,6 @@ public class CommandValidation {
 		if (!parts[0].equals("create")) {
 			return false;
 		}
-		return false;
+		return true;
 	}
 }
