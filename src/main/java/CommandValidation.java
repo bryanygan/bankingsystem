@@ -46,6 +46,7 @@ public class CommandValidation {
 				return false;
 			}
 		}
+
 		// cd needs valid interest rate
 		else if (accountType.equals("cd")) {
 			if (additionalParam == null || !isPositiveDecimal(additionalParam)) {
@@ -130,4 +131,13 @@ public class CommandValidation {
 
 		return true;
 	}
+
+	private boolean isValidCDBalance(double balance) {
+		return balance >= 1000 && balance <= 10000;
+	}
+
+	private boolean isValidAPR(double apr) {
+		return apr > 0 && apr <= 10;
+	}
+
 }
