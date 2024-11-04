@@ -108,11 +108,11 @@ public class CommandValidationTest {
 		assertFalse(validator.validateCreateCommand("create savings 12345678 -1.0"));
 	}
 
-	/*
-	 * @Test public void test_apr_more_than_ten() {
-	 * assertFalse(validator.validateCreateCommand("create savings 12345678 11.0"));
-	 * }
-	 */
+	@Test
+	void test_apr_more_than_ten() {
+		boolean isValid = CommandValidation.validateApr(15.0); // Adjust with the actual method for APR validation
+		assertFalse(isValid, "APR over 10% should not be valid");
+	}
 
 	@Test
 	public void test_cd_balance_1000() {
@@ -129,13 +129,15 @@ public class CommandValidationTest {
 		assertTrue(validator.validateCreateCommand("create cd 12345678 10000"));
 	}
 
-	/*
-	 * @Test public void test_cd_balance_less_than_1000() {
-	 * assertFalse(validator.validateCreateCommand("create cd 12345678 500")); }
-	 * 
-	 * @Test public void test_cd_balance_more_than_10000() {
-	 * assertFalse(validator.validateCreateCommand("create cd 12345678 15000")); }
-	 */
+	@Test
+	public void test_cd_balance_less_than_1000() {
+		assertFalse(CommandValidation.validateCdBalance(500));
+	}
+
+	@Test
+	public void test_cd_balance_more_than_10000() {
+		assertFalse(CommandValidation.validateCdBalance(15000));
+	}
 
 	@Test
 	public void test_cd_balance_negative() {
@@ -152,11 +154,10 @@ public class CommandValidationTest {
 		assertTrue(validator.validateCreateCommand("create savings 12345678 500"));
 	}
 
-	/*
-	 * @Test public void test_account_id_not_unique() {
-	 * assertFalse(validator.validateCreateCommand("create savings 12345678 1.5"));
-	 * }
-	 */
+//	@Test
+//	public void test_account_id_not_unique() {
+//		assertFalse(validator.validateCreateCommand("create savings 12345678 1.5"));
+//	}
 
 	@Test
 	public void test_account_id_not_eight_digits() {

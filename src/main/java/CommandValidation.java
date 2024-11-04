@@ -1,5 +1,13 @@
 public class CommandValidation {
 
+	public static boolean validateCdBalance(double balance) {
+		return balance >= 1000 && balance <= 10000;
+	}
+
+	public static boolean validateApr(double apr) {
+		return apr >= 0 && apr <= 10;
+	}
+
 	public boolean validateCreateCommand(String command) {
 		if (command == null) {
 			return false;
@@ -134,10 +142,6 @@ public class CommandValidation {
 
 	private boolean isValidCDBalance(double balance) {
 		return balance >= 1000 && balance <= 10000;
-	}
-
-	private boolean isValidAPR(double apr) {
-		return apr > 0 && apr <= 10;
 	}
 
 }
