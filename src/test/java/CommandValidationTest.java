@@ -42,4 +42,9 @@ public class CommandValidationTest {
 		assertFalse(validator.validateCreateCommand("open savings 12345678 0.6"));
 	}
 
+	@Test
+	public void test_account_number_with_leading_zeros() {
+		assertTrue(validator.validateCreateCommand("create cd 00000001 1.5"));
+	}
+
 }

@@ -21,6 +21,33 @@ public class CommandValidation {
 		if (!parts[0].equals("create")) {
 			return false;
 		}
+
 		return true;
 	}
+
+	private boolean isValidAccountType(String accountType) {
+		if (accountType.equals("savings")) {
+			return true;
+		}
+
+		if (accountType.equals("checking")) {
+			return true;
+		}
+
+		if (accountType.equals("cd")) {
+			return true;
+		}
+
+		return false;
+	}
+
+	// check if account number is 8 digits
+	private boolean isValidAccountNumber(String accountNumber) {
+		if (!accountNumber.matches("\\d{8}")) {
+			return false;
+		}
+
+		return true;
+	}
+
 }
