@@ -140,8 +140,4 @@ public class CommandValidation {
 		return true;
 	}
 
-	private boolean isValidCDBalance(double balance) {
-		return balance >= 1000 && balance <= 10000;
-	}
-
 }
