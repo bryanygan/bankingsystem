@@ -1,4 +1,10 @@
+import java.util.HashSet;
+import java.util.Set;
+
 public class CommandValidation {
+
+	// set to keep track of existing account IDs for uniqueness checking
+	private Set<String> existingAccountIds = new HashSet<>();
 
 	public static boolean validateCdBalance(double balance) {
 		return balance >= 1000 && balance <= 10000;
@@ -40,11 +46,13 @@ public class CommandValidation {
 			additionalParam = parts[3];
 		}
 
+		// validate account type
 		if (!isValidAccountType(accountType)) {
 			return false;
 		}
 
-		if (!isValidAccountNumber(accountNumber)) {
+		// validate account number format and uniqueness
+		if (!isValidAccountNumber(accountNumber) || !isUniqueAccountId(accountNumber)) {
 			return false;
 		}
 
@@ -61,6 +69,9 @@ public class CommandValidation {
 				return false;
 			}
 		}
+
+		// register account ID as in use
+		existingAccountIds.add(accountNumber);
 
 		return true;
 	}
@@ -124,6 +135,11 @@ public class CommandValidation {
 		return true;
 	}
 
+	// check if account ID is unique
+	private boolean isUniqueAccountId(String accountId) {
+		return !existingAccountIds.contains(accountId);
+	}
+
 	private boolean isPositiveDecimal(String str) {
 		try {
 			// try parsing as double
@@ -139,5 +155,4 @@ public class CommandValidation {
 
 		return true;
 	}
-
 }

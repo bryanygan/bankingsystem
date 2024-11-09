@@ -154,10 +154,11 @@ public class CommandValidationTest {
 		assertTrue(validator.validateCreateCommand("create savings 12345678 500"));
 	}
 
-//	@Test
-//	public void test_account_id_not_unique() {
-//		assertFalse(validator.validateCreateCommand("create savings 12345678 1.5"));
-//	}
+	@Test
+	public void test_account_id_not_unique() {
+		assertTrue(validator.validateCreateCommand("create savings 12345678 1.5"));
+		assertFalse(validator.validateCreateCommand("create savings 12345678 1.5"));
+	}
 
 	@Test
 	public void test_account_id_not_eight_digits() {
