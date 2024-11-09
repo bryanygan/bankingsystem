@@ -105,7 +105,7 @@ public class CommandValidationTest {
 
 	@Test
 	void test_apr_more_than_ten() {
-		boolean isValid = CommandValidation.validateApr(15.0);
+		boolean isValid = CdAccountValidation.validateApr(15.0);
 		assertFalse(isValid);
 	}
 
@@ -126,12 +126,12 @@ public class CommandValidationTest {
 
 	@Test
 	public void test_cd_balance_less_than_1000() {
-		assertFalse(CommandValidation.validateCdBalance(500));
+		assertFalse(CdAccountValidation.validateCdBalance(500));
 	}
 
 	@Test
 	public void test_cd_balance_more_than_10000() {
-		assertFalse(CommandValidation.validateCdBalance(15000));
+		assertFalse(CdAccountValidation.validateCdBalance(15000));
 	}
 
 	@Test
