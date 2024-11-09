@@ -19,7 +19,7 @@ public class CommandValidationTest {
 
 	@Test
 	public void test_valid_create_cd_account() {
-		assertTrue(validator.validateCreateCommand("create cd 12345678 1.5"));
+		assertTrue(validator.validateCreateCommand("create cd 12345678 1.5 2000"));
 	}
 
 	@Test
@@ -55,11 +55,6 @@ public class CommandValidationTest {
 	}
 
 	@Test
-	public void test_account_number_with_leading_zeros() {
-		assertTrue(validator.validateCreateCommand("create cd 00000001 1.5"));
-	}
-
-	@Test
 	public void test_negative_or_zero_initial_balance_for_savings_or_checking() {
 		assertFalse(validator.validateCreateCommand("create savings 12345678 -100.0"));
 		assertFalse(validator.validateCreateCommand("create checking 87654321 0"));
@@ -73,7 +68,7 @@ public class CommandValidationTest {
 
 	@Test
 	public void test_valid_cd_account_with_positive_interest() {
-		assertTrue(validator.validateCreateCommand("create cd 12345678 1.2"));
+		assertTrue(validator.validateCreateCommand("create cd 12345678 1.2 1500"));
 	}
 
 	@Test
@@ -110,23 +105,23 @@ public class CommandValidationTest {
 
 	@Test
 	void test_apr_more_than_ten() {
-		boolean isValid = CommandValidation.validateApr(15.0); // Adjust with the actual method for APR validation
-		assertFalse(isValid, "APR over 10% should not be valid");
+		boolean isValid = CommandValidation.validateApr(15.0);
+		assertFalse(isValid);
 	}
 
 	@Test
 	public void test_cd_balance_1000() {
-		assertTrue(validator.validateCreateCommand("create cd 12345678 1000"));
+		assertTrue(validator.validateCreateCommand("create cd 12345678 1.2 1000"));
 	}
 
 	@Test
 	public void test_cd_balance_between_1000_and_10000() {
-		assertTrue(validator.validateCreateCommand("create cd 12345678 5000"));
+		assertTrue(validator.validateCreateCommand("create cd 12345678 1.2 5000"));
 	}
 
 	@Test
 	public void test_cd_balance_10000() {
-		assertTrue(validator.validateCreateCommand("create cd 12345678 10000"));
+		assertTrue(validator.validateCreateCommand("create cd 12345678 1.3 10000"));
 	}
 
 	@Test
@@ -210,10 +205,10 @@ public class CommandValidationTest {
 		assertTrue(validator.validateCreateCommand("create savings 87654321 9.8"));
 	}
 
-//	@Test
-//	public void test_case_insensitive_command() {
-//		assertTrue(validator.validateCreateCommand("CrEaTe ChecKing 12345678 3.0"));
-//	}
+	@Test
+	public void test_case_insensitive_command() {
+		assertFalse(validator.validateCreateCommand("CrEaTe ChecKing 12345678 3.0"));
+	}
 
 	@Test
 	public void test_non_unique_id() {
@@ -226,35 +221,35 @@ public class CommandValidationTest {
 		assertFalse(validator.validateCreateCommand("create checking 12345678 -0.5"));
 	}
 
-//	@Test
-//	public void test_apr_exceeds_limit() {
-//		assertFalse(validator.validateCreateCommand("create cd 98765432 15.0 5000"));
-//	}
+	@Test
+	public void test_apr_exceeds_limit() {
+		assertFalse(validator.validateCreateCommand("create cd 98765432 15.0 5000"));
+	}
 
 	@Test
 	public void test_invalid_id_format_too_short() {
 		assertFalse(validator.validateCreateCommand("create savings 12345 0.5"));
 	}
 
-//	@Test
-//	public void test_cd_creation_missing_amount() {
-//		assertFalse(validator.validateCreateCommand("create cd 23456789 1.5"));
-//	}
-//
-//	@Test
-//	public void test_cd_creation_amount_below_minimum() {
-//		assertFalse(validator.validateCreateCommand("create cd 23456789 1.2 500"));
-//	}
-//
-//	@Test
-//	public void test_cd_creation_amount_above_maximum() {
-//		assertFalse(validator.validateCreateCommand("create cd 23456789 1.2 15000"));
-//	}
-//
-//	@Test
-//	public void test_extra_argument_in_command() {
-//		assertFalse(validator.validateCreateCommand("create checking 12345678 0.05 extra"));
-//	}
+	@Test
+	public void test_cd_creation_missing_amount() {
+		assertFalse(validator.validateCreateCommand("create cd 23456789 1.5"));
+	}
+
+	@Test
+	public void test_cd_creation_amount_below_minimum() {
+		assertFalse(validator.validateCreateCommand("create cd 23456789 1.2 500"));
+	}
+
+	@Test
+	public void test_cd_creation_amount_above_maximum() {
+		assertFalse(validator.validateCreateCommand("create cd 23456789 1.2 15000"));
+	}
+
+	@Test
+	public void test_extra_argument_in_command() {
+		assertFalse(validator.validateCreateCommand("create checking 12345678 0.05 extra"));
+	}
 
 	@Test
 	public void test_missing_apr_for_checking() {
@@ -263,38 +258,33 @@ public class CommandValidationTest {
 
 	@Test
 	public void test_trailing_spaces_in_command() {
-		assertTrue(validator.validateCreateCommand("create savings 12345678 0.3 "));
+		assertFalse(validator.validateCreateCommand("create savings 12345678 0.3 "));
 	}
 
-//	@Test
-//	public void test_extra_spaces_in_command() {
-//		assertFalse(validator.validateCreateCommand("create checking 12345678 0.3 "));
-//	}
+	@Test
+	public void test_extra_spaces_in_command() {
+		assertFalse(validator.validateCreateCommand("create checking 12345678 0.3 "));
+	}
 
 	@Test
 	public void test_id_with_leading_zeros() {
 		assertTrue(validator.validateCreateCommand("create savings 00012345 0.5"));
 	}
 
-//	@Test
-//	public void test_apr_more_than_two_decimal_places() {
-//		assertFalse(validator.validateCreateCommand("create checking 87654321 2.456"));
-//	}
+	@Test
+	public void test_apr_more_than_two_decimal_places() {
+		assertFalse(validator.validateCreateCommand("create checking 87654321 2.456"));
+	}
 
 	@Test
 	public void test_non_numeric_characters_in_id() {
 		assertFalse(validator.validateCreateCommand("create checking 12345abc 0.5"));
 	}
 
-//	@Test
-//	public void test_apr_in_scientific_notation() {
-//		assertFalse(validator.validateCreateCommand("create savings 87654321 1e-2"));
-//	}
-//
-//	@Test
-//	public void test_negative_amount_for_cd_creation() {
-//		assertFalse(validator.validateCreateCommand("create cd 34567890 3.5 -1000"));
-//	}
+	@Test
+	public void test_negative_amount_for_cd_creation() {
+		assertFalse(validator.validateCreateCommand("create cd 34567890 3.5 -1000"));
+	}
 
 	@Test
 	public void test_command_with_leading_space() {

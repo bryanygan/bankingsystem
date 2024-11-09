@@ -11,23 +11,21 @@ public class CommandValidation {
 	}
 
 	public static boolean validateApr(double apr) {
-		return apr >= 0 && apr <= 10;
+		return apr >= 0 && apr <= 10 && (Math.floor(apr * 100) == apr * 100);
 	}
 
 	public boolean validateCreateCommand(String command) {
-		if (command == null) {
+		if (command == null || command.isEmpty()) {
 			return false;
 		}
 
-		if (command.isEmpty()) {
+		if (!command.equals(command.trim())) {
 			return false;
 		}
 
-		// split command string
-		String[] parts = command.split(" ");
+		String[] parts = command.trim().split("\\s+");
 
-		// validate command has at least create, account type, and account number
-		if (parts.length < 3) {
+		if (parts.length < 3 || parts.length > 5) {
 			return false;
 		}
 
@@ -46,6 +44,22 @@ public class CommandValidation {
 			additionalParam = parts[3];
 		}
 
+		if (parts.length > 4) {
+			if (accountType.equals("savings") || accountType.equals("checking")) {
+				return false;
+			} else if (accountType.equals("cd")) {
+				try {
+					double cdBalance = Double.parseDouble(parts[4]);
+
+					if (!validateCdBalance(cdBalance)) {
+						return false;
+					}
+				} catch (NumberFormatException e) {
+					return false;
+				}
+			}
+		}
+
 		// validate account type
 		if (!isValidAccountType(accountType)) {
 			return false;
@@ -60,52 +74,30 @@ public class CommandValidation {
 		if (accountType.equals("savings") || accountType.equals("checking")) {
 			if (additionalParam == null || !isPositiveDecimal(additionalParam)) {
 				return false;
+				// check decimal places
+			} else {
+				if (!additionalParam.matches("\\d+(\\.\\d{1,2})?")) {
+					return false;
+				}
 			}
 		}
 
 		// cd needs valid interest rate
 		else if (accountType.equals("cd")) {
+			if (parts.length != 5) {
+				return false;
+			}
 			if (additionalParam == null || !isPositiveDecimal(additionalParam)) {
+				return false;
+			}
+			double apr = Double.parseDouble(additionalParam);
+			if (!validateApr(apr)) {
 				return false;
 			}
 		}
 
 		// register account ID as in use
 		existingAccountIds.add(accountNumber);
-
-		return true;
-	}
-
-	// same process for deposit commands
-	public boolean validateDepositCommand(String command) {
-		if (command == null) {
-			return false;
-		}
-
-		if (command.isEmpty()) {
-			return false;
-		}
-
-		String[] parts = command.split(" ");
-
-		if (parts.length != 3) {
-			return false;
-		}
-
-		if (!parts[0].equals("deposit")) {
-			return false;
-		}
-
-		String accountNumber = parts[1];
-		String amount = parts[2];
-
-		if (!isValidAccountNumber(accountNumber)) {
-			return false;
-		}
-
-		if (!isPositiveDecimal(amount)) {
-			return false;
-		}
 
 		return true;
 	}
