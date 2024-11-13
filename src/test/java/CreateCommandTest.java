@@ -14,7 +14,7 @@ public class CreateCommandTest {
 	}
 
 	@Test
-	public void testCreateCheckingAccount() {
+	public void create_checking_account() {
 		String[] command = { "create", "checking", "12345678", "1.0" };
 		createCommand.execute(command);
 		Checking account = (Checking) bank.getAccountByID("12345678");
@@ -24,7 +24,7 @@ public class CreateCommandTest {
 	}
 
 	@Test
-	public void testCreateSavingsAccount() {
+	public void create_savings_account() {
 		String[] command = { "create", "savings", "87654321", "0.5" };
 		createCommand.execute(command);
 		Savings account = (Savings) bank.getAccountByID("87654321");
@@ -34,7 +34,7 @@ public class CreateCommandTest {
 	}
 
 	@Test
-	public void testCreateCdAccount() {
+	public void create_cd_account() {
 		String[] command = { "create", "cd", "11223344", "2.0", "1000.0" };
 		createCommand.execute(command);
 		CertificateOfDeposit account = (CertificateOfDeposit) bank.getAccountByID("11223344");
