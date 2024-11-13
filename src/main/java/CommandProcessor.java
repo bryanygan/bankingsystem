@@ -1,17 +1,15 @@
 public class CommandProcessor {
-	private final CreateCommand createCommand;
-	private final DepositCommand depositCommand;
+	private CreateCommand createCommand;
+	private DepositCommand depositCommand;
 
 	public CommandProcessor(Bank bank) {
 		this.createCommand = new CreateCommand(bank);
 		this.depositCommand = new DepositCommand(bank);
 	}
 
-	public void process(String command) {
+	public void processCommand(String command) {
 		String[] parts = command.split(" ");
-		String action = parts[0].toLowerCase();
-
-		switch (action) {
+		switch (parts[0]) {
 		case "create":
 			createCommand.execute(parts);
 			break;
@@ -19,7 +17,7 @@ public class CommandProcessor {
 			depositCommand.execute(parts);
 			break;
 		default:
-			throw new UnsupportedOperationException("Unsupported command: " + action);
+			throw new UnsupportedOperationException("Command not supported");
 		}
 	}
 }
