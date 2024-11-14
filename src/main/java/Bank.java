@@ -10,7 +10,6 @@ public class Bank {
 
 	public void addAccount(Account account) {
 		accounts.put(account.getAccountID(), account);
-
 	}
 
 	public Account getAccountByID(String accountID) {
