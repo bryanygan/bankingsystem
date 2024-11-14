@@ -63,4 +63,28 @@ public class MasterControlTest {
 		assertEquals("create investment 87654321 2.0", result.get(0));
 		assertEquals("deposit 99999999 50", result.get(1));
 	}
+
+	@Test
+	public void test_all_invalid_commands() {
+		List<String> commands = new ArrayList<>();
+		commands.add("create investment 87654321 2.0"); // invalid
+		commands.add("withdraw 12345678 50"); // invalid
+
+		List<String> result = masterControl.start(commands);
+
+		assertEquals(2, result.size());
+		assertEquals("create investment 87654321 2.0", result.get(0));
+		assertEquals("withdraw 12345678 50", result.get(1));
+	}
+
+	@Test
+	public void test_all_valid_commands() {
+		List<String> commands = new ArrayList<>();
+		commands.add("create checking 12345678 1.0"); // valid
+		commands.add("deposit 12345678 100"); // valid
+
+		List<String> result = masterControl.start(commands);
+
+		assertEquals(0, result.size());
+	}
 }
