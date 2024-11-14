@@ -31,10 +31,21 @@ public class MasterControlTest {
 	@Test
 	public void test_process_valid_command() {
 		List<String> commands = new ArrayList<>();
-		commands.add("create checking 12345678 1.0"); // valid command
+		commands.add("create checking 12345678 1.0");
 
 		List<String> result = masterControl.start(commands);
 
 		assertEquals(0, result.size());
+	}
+
+	@Test
+	public void test_process_invalid_command() {
+		List<String> commands = new ArrayList<>();
+		commands.add("create investment 87654321 2.0");
+
+		List<String> result = masterControl.start(commands);
+
+		assertEquals(1, result.size());
+		assertEquals("create investment 87654321 2.0", result.get(0));
 	}
 }
