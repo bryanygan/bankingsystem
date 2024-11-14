@@ -2,18 +2,19 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Bank {
-	private static Map<String, Account> accounts = new HashMap<>();
+	private Map<String, Account> accounts;
 
 	public Bank() {
-		accounts = new HashMap<>();
+		this.accounts = new HashMap<>();
 	}
 
-	public static Account getAccountByID(String accountID) {
-		return accounts.get(accountID);
-	}
-
-	public static void addAccount(Account account) {
+	public void addAccount(Account account) {
 		accounts.put(account.getAccountID(), account);
+
+	}
+
+	public Account getAccountByID(String accountID) {
+		return accounts.get(accountID);
 	}
 
 	public void depositByID(String accountID, double amount) {
