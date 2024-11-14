@@ -13,7 +13,11 @@ public class MasterControl {
 
 	public List<String> start(List<String> commands) {
 		for (String command : commands) {
-			commandProcessor.processCommand(command);
+			try {
+				commandProcessor.processCommand(command);
+			} catch (Exception e) {
+				invalidCommands.addInvalidCommand(command);
+			}
 		}
 		return invalidCommands.getInvalidCommands();
 	}
