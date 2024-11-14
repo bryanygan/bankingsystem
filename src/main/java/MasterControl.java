@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 import java.util.List;
 
 public class MasterControl {
@@ -13,6 +12,9 @@ public class MasterControl {
 	}
 
 	public List<String> start(List<String> commands) {
-		return new ArrayList<>();
+		for (String command : commands) {
+			commandProcessor.processCommand(command);
+		}
+		return invalidCommands.getInvalidCommands();
 	}
 }
