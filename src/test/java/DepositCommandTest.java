@@ -1,5 +1,4 @@
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -39,10 +38,14 @@ public class DepositCommandTest {
 	public void test_deposit_to_non_existent_account() {
 		String accountId = "99999999";
 		String[] command = { "deposit", accountId, "50" };
-		assertNull(bank.getAccountByID(accountId));
-		depositCommand.execute(command);
 
-		assertNull(bank.getAccountByID(accountId), "Account should still not exist after deposit attempt.");
+		assertNull(bank.getAccountByID(accountId));
+
+		assertThrows(IllegalArgumentException.class, () -> {
+			depositCommand.execute(command);
+		});
+
+		assertNull(bank.getAccountByID(accountId));
 	}
 
 	@Test
