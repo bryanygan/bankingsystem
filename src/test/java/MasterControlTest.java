@@ -62,6 +62,7 @@ public class MasterControlTest {
 		assertEquals(2, result.size());
 		assertEquals("create investment 87654321 2.0", result.get(0));
 		assertEquals("deposit 99999999 50", result.get(1));
+
 	}
 
 	@Test
