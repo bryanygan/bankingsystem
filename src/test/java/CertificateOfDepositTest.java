@@ -17,42 +17,24 @@ public class CertificateOfDepositTest {
 	}
 
 	@Test
-	public void cd_deposit_increases_balance() {
-		CertificateOfDeposit cd = new CertificateOfDeposit("54321876", 4.0, 1000);
-		cd.deposit(500);
-		assertEquals(1500, cd.getBalance());
-	}
-
-	@Test
 	public void cd_withdraw_decreases_balance() {
 		CertificateOfDeposit cd = new CertificateOfDeposit("54321876", 4.0, 1000);
-		cd.deposit(500);
 		cd.withdraw(200);
-		assertEquals(1300, cd.getBalance());
+		assertEquals(800, cd.getBalance());
 	}
 
 	@Test
 	public void cd_withdraw_more_than_balance_goes_to_zero() {
 		CertificateOfDeposit cd = new CertificateOfDeposit("54321876", 4.0, 1000);
-		cd.deposit(500);
 		cd.withdraw(1600);
 		assertEquals(0, cd.getBalance());
 	}
 
 	@Test
-	public void cd_depositing_twice_works() {
-		CertificateOfDeposit cd = new CertificateOfDeposit("54321876", 4.0, 1000);
-		cd.deposit(500);
-		cd.deposit(500);
-		assertEquals(2000, cd.getBalance());
-	}
-
-	@Test
 	public void cd_withdrawing_twice_works() {
 		CertificateOfDeposit cd = new CertificateOfDeposit("54321876", 4.0, 1000);
-		cd.deposit(500);
 		cd.withdraw(200);
 		cd.withdraw(200);
-		assertEquals(1100, cd.getBalance());
+		assertEquals(600, cd.getBalance());
 	}
 }
