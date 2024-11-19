@@ -6,6 +6,6 @@ public class CertificateOfDeposit extends Account {
 
 	@Override
 	public boolean deposit(double amount) {
-		throw new UnsupportedOperationException("Can't deposit in CD");
+		return false;
 	}
 }

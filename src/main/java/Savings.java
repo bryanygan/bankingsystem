@@ -5,7 +5,7 @@ public class Savings extends Account {
 
 	@Override
 	public boolean deposit(double amount) {
-		if (amount > 2500) {
+		if (amount > 2500 || amount < 0) {
 			return false;
 		}
 		super.deposit(amount);

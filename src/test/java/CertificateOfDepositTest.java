@@ -1,4 +1,5 @@
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import org.junit.jupiter.api.Test;
 
@@ -36,5 +37,11 @@ public class CertificateOfDepositTest {
 		cd.withdraw(200);
 		cd.withdraw(200);
 		assertEquals(600, cd.getBalance());
+	}
+
+	@Test
+	public void test_cd_account_deposit_not_allowed() {
+		CertificateOfDeposit cd = new CertificateOfDeposit("24680", 0.03, 1000);
+		assertFalse(cd.deposit(500));
 	}
 }

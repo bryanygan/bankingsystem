@@ -62,4 +62,11 @@ public class SavingsTest {
 		assertTrue(savings.deposit(2000));
 		assertFalse(savings.deposit(2600));
 	}
+
+	@Test
+	public void test_negative_and_zero_deposit() {
+		Savings savings = new Savings("12345", 0.01);
+		assertTrue(savings.deposit(0));
+		assertFalse(savings.deposit(-100));
+	}
 }
