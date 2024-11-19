@@ -1,4 +1,4 @@
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
@@ -54,5 +54,12 @@ public class SavingsTest {
 		savings.withdraw(200);
 		savings.withdraw(200);
 		assertEquals(100, savings.getBalance());
+	}
+
+	@Test
+	public void test_savings_account_deposit_limit() {
+		Savings savings = new Savings("12345", 0.01);
+		assertTrue(savings.deposit(2000));
+		assertFalse(savings.deposit(2600));
 	}
 }
