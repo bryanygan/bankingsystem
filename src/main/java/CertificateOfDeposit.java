@@ -3,4 +3,9 @@ public class CertificateOfDeposit extends Account {
 		super(accountID, APR);
 		this.balance = initialBalance;
 	}
+
+	@Override
+	public void deposit(double amount) {
+		throw new UnsupportedOperationException("Can't deposit in CD");
+	}
 }
