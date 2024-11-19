@@ -8,7 +8,11 @@ public class Bank {
 		accounts = new HashMap<>();
 	}
 
-	public static Account getAccountByID(String accountID) {
+	public void addAccount(Account account) {
+		accounts.put(account.getAccountID(), account);
+	}
+
+	public Account getAccountByID(String accountID) {
 		return accounts.get(accountID);
 	}
 
