@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 public class CommandValidationTest {
 
 	private final CommandValidation validator = new CommandValidation();
+	private final DepositCommandValidation depositValidator = new DepositCommandValidation();
 
 	@Test
 	public void test_valid_create_savings_account() {
@@ -309,6 +310,53 @@ public class CommandValidationTest {
 	@Test
 	public void test_spaces_within_id() {
 		assertFalse(validator.validateCreateCommand("create savings 1234 5678 0.5"));
+	}
+
+	@Test
+	public void test_valid_deposit_to_savings() {
+		Bank.addAccount(new Savings("12345678", 0.5));
+		assertTrue(depositValidator.validateDepositCommand("deposit 12345678 2500.00"));
+	}
+
+	@Test
+	public void test_valid_deposit_to_checking() {
+		Bank.addAccount(new Checking("87654321", 500));
+		assertTrue(depositValidator.validateDepositCommand("deposit 87654321 1000.00"));
+	}
+
+	@Test
+	public void test_invalid_deposit_to_cd() {
+		assertFalse(depositValidator.validateDepositCommand("deposit 11223344 500.00"));
+	}
+
+	@Test
+	public void test_negative_deposit_amount() {
+		assertFalse(depositValidator.validateDepositCommand("deposit 12345678 -100.00"));
+	}
+
+	@Test
+	public void test_exceeding_deposit_limit_for_savings() {
+		assertFalse(depositValidator.validateDepositCommand("deposit 12345678 3000.00"));
+	}
+
+	@Test
+	public void test_exceeding_deposit_limit_for_checking() {
+		assertFalse(depositValidator.validateDepositCommand("deposit 87654321 1500.00"));
+	}
+
+	@Test
+	public void test_non_numeric_deposit_amount() {
+		assertFalse(depositValidator.validateDepositCommand("deposit 12345678 abc"));
+	}
+
+	@Test
+	public void test_invalid_command_format() {
+		assertFalse(depositValidator.validateDepositCommand("deposit 12345678"));
+	}
+
+	@Test
+	public void test_invalid_account_id() {
+		assertFalse(depositValidator.validateDepositCommand("deposit 99999999 500.00"));
 	}
 
 }
