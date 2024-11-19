@@ -359,4 +359,31 @@ public class CommandValidationTest {
 		assertFalse(depositValidator.validateDepositCommand("deposit 99999999 500.00"));
 	}
 
+	@Test
+	public void scientific_notation_is_invalid() {
+		CommandValidation validation = new CommandValidation();
+		boolean result = validation.validateCreateCommand("create 12345678 4e2 1000");
+		assertFalse(result);
+	}
+
+	@Test
+	public void apr_is_not_negative() {
+		CommandValidation validation = new CommandValidation();
+		boolean result = validation.validateCreateCommand("create 12345678 -5.0 1000");
+		assertFalse(result);
+	}
+
+	@Test
+	public void cannot_deposit_negative_amount() {
+		Account account = new Account("12345678", 1.0);
+		boolean result = account.deposit(-500);
+		assertFalse(result);
+	}
+
+	@Test
+	public void cannot_withdraw_negative_amount() {
+		Account account = new Account("12345678", 1.0);
+		boolean result = account.withdraw(-200);
+		assertFalse(result);
+	}
 }
