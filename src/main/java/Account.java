@@ -1,4 +1,4 @@
-public abstract class Account {
+public class Account {
 	protected String accountID;
 	protected double balance;
 	protected double APR;
@@ -21,13 +21,14 @@ public abstract class Account {
 		return APR;
 	}
 
-	public void deposit(double amount) {
+	public boolean deposit(double amount) {
 		if (amount > 0) {
 			balance += amount;
 		}
+		return false;
 	}
 
-	public void withdraw(double amount) {
+	public boolean withdraw(double amount) {
 		if (amount > 0) {
 			if (amount >= balance) {
 				balance = 0;
@@ -35,5 +36,6 @@ public abstract class Account {
 				balance -= amount;
 			}
 		}
+		return false;
 	}
 }
