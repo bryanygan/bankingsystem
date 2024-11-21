@@ -24,7 +24,7 @@ build:
 
 code_quality:
   tags:
-  - saas-linux-medium-amd64
+    - saas-linux-medium-amd64
   stage: test
   allow_failure: false
   variables:
@@ -59,6 +59,7 @@ coverage-jdk11:
   stage: deploy
   image: haynes/jacoco2cobertura:1.0.3
   script:
+    - mkdir -p builds/jacoco
     - 'python /opt/cover2cover.py builds/jacoco/jacoco.xml src/main/java > builds/cobertura.xml'
     - 'python /opt/source2filename.py builds/cobertura.xml'
   needs: [ "test" ]
