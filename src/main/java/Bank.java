@@ -13,7 +13,12 @@ public class Bank {
 	}
 
 	public static void addAccount(Account account) {
+		if (accounts.containsKey(account.getAccountID())) {
+			throw new IllegalArgumentException(
+					"banking.Account with ID " + account.getAccountID() + " already exists.");
+		}
 		accounts.put(account.getAccountID(), account);
+
 	}
 
 	public void depositByID(String accountID, double amount) {
