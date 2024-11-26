@@ -4,18 +4,6 @@ plugins {
     id 'jacoco'
 }
 
-jacoco {
-    toolVersion = "0.8.10"
-}
-
-tasks.jacocoTestReport {
-    dependsOn test
-    reports {
-        xml.required = true
-        html.required = true
-    }
-}
-
 group 'org.example'
 version '1.0-SNAPSHOT'
 
@@ -36,8 +24,8 @@ test {
 
 jacocoTestReport {
     reports {
-        xml.required.set(true)
-        xml.outputLocation.set(file("$buildDir/jacoco/jacoco.xml"))
+        xml.enabled true
+        xml.destination = project.file("builds/jacoco/jacoco.xml")
     }
 }
 
