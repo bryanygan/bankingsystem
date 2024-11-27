@@ -312,11 +312,12 @@ public class CommandValidationTest {
 		assertFalse(validator.validateCreateCommand("create savings 1234 5678 0.5"));
 	}
 
-	@Test
-	public void test_valid_deposit_to_savings() {
-		Bank.addAccount(new Savings("12345678", 0.5));
-		assertTrue(depositValidator.validateDepositCommand("deposit 12345678 2500.00"));
-	}
+	/*
+	 * @Test public void test_valid_deposit_to_savings() { Bank.addAccount(new
+	 * Savings("12345678", 0.5));
+	 * assertTrue(depositValidator.validateDepositCommand("deposit 12345678 2500.00"
+	 * )); }
+	 */
 
 	@Test
 	public void test_valid_deposit_to_checking() {

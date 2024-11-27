@@ -2,7 +2,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Bank {
-	private static Map<String, Account> accounts = new HashMap<>();
+	private static Map<String, Account> accounts;
 
 	public Bank() {
 		accounts = new HashMap<>();
@@ -14,6 +14,7 @@ public class Bank {
 
 	public static void addAccount(Account account) {
 		accounts.put(account.getAccountID(), account);
+
 	}
 
 	public void depositByID(String accountID, double amount) {
