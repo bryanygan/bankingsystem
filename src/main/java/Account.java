@@ -2,11 +2,13 @@ public class Account {
 	protected String accountID;
 	protected double balance;
 	protected double APR;
+	protected AccountType type;
 
 	protected Account(String accountID, double APR) {
 		this.balance = 0;
 		this.accountID = accountID;
 		this.APR = APR;
+		this.type = type;
 	}
 
 	public String getAccountID() {
@@ -45,4 +47,13 @@ public class Account {
 		}
 		return false;
 	}
+
+	public AccountType getType() {
+		return type;
+	}
+
+	public enum AccountType {
+		CHECKING, SAVINGS, CD
+	}
+
 }

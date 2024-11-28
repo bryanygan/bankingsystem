@@ -24,4 +24,18 @@ public class WithdrawCommandValidatorTest {
 
 		assertFalse(isValid);
 	}
+
+	@Test
+	public void test_savings_withdrawal_limit_exceeded() {
+		Bank bank = new Bank();
+		Savings savings = new Savings("12345678", 0.6);
+		savings.deposit(5000);
+		Bank.addAccount(savings);
+		WithdrawCommandValidator validator = new WithdrawCommandValidator();
+
+		String command = "withdraw 12345678 1500";
+		boolean isValid = validator.isValidCommand(command, bank);
+		assertFalse(isValid);
+
+	}
 }

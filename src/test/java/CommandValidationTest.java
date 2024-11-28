@@ -7,6 +7,7 @@ public class CommandValidationTest {
 
 	private final CommandValidation validator = new CommandValidation();
 	private final DepositCommandValidation depositValidator = new DepositCommandValidation();
+	Bank bank = new Bank();
 
 	@Test
 	public void test_valid_create_savings_account() {

@@ -21,6 +21,17 @@ public class WithdrawCommandValidator {
 			return false;
 		}
 
+		Account account = Bank.getAccountByID(accountId);
+		if (account == null) {
+			return false;
+		}
+
+		double amount = Double.parseDouble(parts[2]);
+
+		if (account.getType() == Account.AccountType.SAVINGS && amount > 1000) {
+			return false;
+		}
+
 		return true;
 	}
 }
