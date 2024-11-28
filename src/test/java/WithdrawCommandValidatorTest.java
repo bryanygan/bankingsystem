@@ -13,4 +13,15 @@ public class WithdrawCommandValidatorTest {
 
 		assertFalse(isValid);
 	}
+
+	@Test
+	public void test_invalid_withdrawal_amount() {
+		WithdrawCommandValidator validator = new WithdrawCommandValidator();
+		String command = "withdraw 12345678 -100";
+		Bank bank = new Bank();
+
+		boolean isValid = validator.isValidCommand(command, bank);
+
+		assertFalse(isValid);
+	}
 }
