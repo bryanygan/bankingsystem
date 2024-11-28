@@ -17,6 +17,13 @@ public class Account {
 		return balance;
 	}
 
+	public void setBalance(double newBalance) {
+		balance = newBalance;
+		if (balance < 0) {
+			balance = 0;
+		}
+	}
+
 	public double getAPR() {
 		return APR;
 	}

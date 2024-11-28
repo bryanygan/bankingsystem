@@ -24,8 +24,8 @@ test {
 
 jacocoTestReport {
     reports {
-        xml.enabled true
-        xml.destination = project.file("builds/jacoco/jacoco.xml")
+        xml.required.set(true) // Enable XML report
+        xml.outputLocation.set(file("builds/jacoco/jacoco.xml")) // Set the destination file for the report
     }
 }
 
