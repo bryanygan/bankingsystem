@@ -8,7 +8,6 @@ public class Account {
 		this.balance = 0;
 		this.accountID = accountID;
 		this.APR = APR;
-		this.type = type;
 	}
 
 	public String getAccountID() {
