@@ -1,5 +1,4 @@
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
@@ -385,7 +384,7 @@ public class CommandValidationTest {
 	@Test
 	public void cannot_withdraw_negative_amount() {
 		Account account = new Account("12345678", 1.0);
-		boolean result = account.withdraw(-200);
-		assertFalse(result);
+		Exception exception = assertThrows(IllegalArgumentException.class, () -> account.withdraw(-200));
+		assertEquals("Negative amount not allowed", exception.getMessage());
 	}
 }

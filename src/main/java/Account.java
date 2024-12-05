@@ -37,15 +37,22 @@ public class Account {
 		return false;
 	}
 
-	public boolean withdraw(double amount) {
-		if (amount > 0) {
-			if (amount >= balance) {
-				balance = 0;
-			} else {
-				balance -= amount;
-			}
+	public double withdraw(double amount) {
+		String account = getAccountID();
+		if (account == null) {
+			throw new IllegalArgumentException("No account with ID " + getAccountID());
 		}
-		return false;
+
+		double balance = getBalance();
+
+		if (amount <= 0) {
+			throw new IllegalArgumentException("Negative amount not allowed");
+		}
+
+		double withdrawn = Math.min(amount, balance);
+		setBalance(balance - withdrawn);
+
+		return withdrawn;
 	}
 
 	public AccountType getType() {
