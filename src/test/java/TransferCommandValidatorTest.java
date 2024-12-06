@@ -80,4 +80,38 @@ public class TransferCommandValidatorTest {
 
 		assertFalse(validator.validate(command, bank));
 	}
+
+	@Test
+	public void test_invalid_transfer_due_to_withdrawal_limit() {
+		Bank bank = new Bank();
+		Checking checking = new Checking("12345678", 0.03);
+		checking.deposit(500);
+		Bank.addAccount(checking);
+
+		Checking checking2 = new Checking("87654321", 0.02);
+		checking2.deposit(300);
+		Bank.addAccount(checking2);
+
+		TransferCommand command = new TransferCommand("12345678", "87654321", 500, "transfer 12345678 87654321 500");
+		TransferCommandValidator validator = new TransferCommandValidator();
+
+		assertFalse(validator.validate(command, bank));
+	}
+
+	@Test
+	public void test_invalid_transfer_due_to_deposit_limit() {
+		Bank bank = new Bank();
+		Checking checking = new Checking("12345678", 0.03);
+		checking.deposit(500);
+		Bank.addAccount(checking);
+
+		Savings savings = new Savings("87654321", 0.05);
+		Bank.addAccount(savings);
+
+		TransferCommand command = new TransferCommand("12345678", "87654321", 3000, "transfer 12345678 87654321 3000");
+		TransferCommandValidator validator = new TransferCommandValidator();
+
+		assertFalse(validator.validate(command, bank));
+	}
+
 }

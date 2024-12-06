@@ -25,7 +25,7 @@ public class TransferCommandValidator {
 			return false;
 		}
 
-		if (toAccount.getType() == Account.AccountType.CHECKING && amount > 1000) {
+		if (toAccount.getType() == Account.AccountType.CHECKING && amount > 400) {
 			return false;
 		}
 
