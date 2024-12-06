@@ -10,8 +10,9 @@ public class TransferCommand {
 
 	public boolean validate(Bank bank) {
 		String[] parts = rawCommand.split(" ");
-		if (parts.length != 4)
+		if (parts.length != 4) {
 			return false;
+		}
 
 		fromId = parts[1];
 		toId = parts[2];
@@ -22,21 +23,31 @@ public class TransferCommand {
 			return false;
 		}
 
-		if (amount <= 0 || fromId.equals(toId))
+		if (amount <= 0 || fromId.equals(toId)) {
 			return false;
+		}
 
 		Account fromAccount = Bank.getAccountByID(fromId);
 		Account toAccount = Bank.getAccountByID(toId);
 
-		if (fromAccount == null || toAccount == null)
+		if (fromAccount == null || toAccount == null) {
 			return false;
+		}
 
-		if (fromAccount.getType().equals("CD") || toAccount.getType().equals("CD"))
+		if (fromAccount.getType().equals("CD") || toAccount.getType().equals("CD")) {
 			return false;
+		}
 
 		return true;
 	}
 
-	public void execute(Bank bank) {
-	}
+	/*
+	 * public void execute(Bank bank) { Account fromAccount =
+	 * Bank.getAccountByID(fromId); Account toAccount = Bank.getAccountByID(toId);
+	 * 
+	 * double withdrawalAmount = fromAccount.withdraw(amount);
+	 * toAccount.deposit(withdrawalAmount);
+	 * 
+	 * }
+	 */
 }
