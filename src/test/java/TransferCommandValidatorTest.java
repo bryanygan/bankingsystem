@@ -213,4 +213,58 @@ public class TransferCommandValidatorTest {
 		assertFalse(validator.validate(command, bank));
 	}
 
+	@Test
+	public void test_transfer_exceeding_savings_withdrawal_limit() {
+		Bank bank = new Bank();
+
+		Savings savings = new Savings("12345678", 0.05);
+		savings.deposit(1500);
+		Bank.addAccount(savings);
+
+		Checking checking = new Checking("87654321", 0.03);
+		checking.deposit(300);
+		Bank.addAccount(checking);
+
+		TransferCommand command = new TransferCommand("12345678", "87654321", 1200, "transfer 12345678 87654321 1200");
+		TransferCommandValidator validator = new TransferCommandValidator();
+
+		assertFalse(validator.validate(command, bank));
+	}
+
+	@Test
+	public void test_transfer_exceeding_checking_deposit_limit() {
+		Bank bank = new Bank();
+
+		Checking checking = new Checking("12345678", 0.03);
+		checking.deposit(1000);
+		Bank.addAccount(checking);
+
+		Savings savings = new Savings("87654321", 0.05);
+		savings.deposit(500);
+		Bank.addAccount(savings);
+
+		TransferCommand command = new TransferCommand("87654321", "12345678", 1500, "transfer 87654321 12345678 1500");
+		TransferCommandValidator validator = new TransferCommandValidator();
+
+		assertFalse(validator.validate(command, bank));
+	}
+
+	@Test
+	public void test_valid_transfer_within_limits() {
+		Bank bank = new Bank();
+
+		Checking fromAccount = new Checking("12345678", 0.03);
+		fromAccount.deposit(1000);
+		Bank.addAccount(fromAccount);
+
+		Savings toAccount = new Savings("87654321", 0.05);
+		toAccount.deposit(2000);
+		Bank.addAccount(toAccount);
+
+		TransferCommand command = new TransferCommand("12345678", "87654321", 500, "transfer 12345678 87654321 500");
+		TransferCommandValidator validator = new TransferCommandValidator();
+
+		assertTrue(validator.validate(command, bank));
+	}
+
 }
