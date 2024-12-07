@@ -55,4 +55,19 @@ public class PassCommandProcessorTest {
 
 		assertEquals(1002.00, Bank.getAccountByID("12345678").getBalance(), 0.01);
 	}
+
+	@Test
+	public void test_process_invalid_commands_format() {
+		Account account = new Account("12345678", 1.0);
+		account.setBalance(500);
+		Bank.addAccount(account);
+
+		processor.process("pas 1");
+		processor.process("pass -1");
+		processor.process("pass 0");
+		processor.process("pass 61");
+		processor.process("pass");
+
+		assertEquals(500.0, Bank.getAccountByID("12345678").getBalance(), 0.01);
+	}
 }
