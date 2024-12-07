@@ -92,4 +92,40 @@ public class BankTest {
 		assertNull(Bank.getAccountByID("12345678"));
 	}
 
+	@Test
+	public void test_deduct_minimum_balance_fee() {
+		Bank bank = new Bank();
+		Account account = new Account("12345678", 1.0);
+		account.setBalance(50);
+		Bank.addAccount(account);
+
+		bank.processPassTime(1);
+
+		assertEquals(25.02, Bank.getAccountByID("12345678").getBalance(), 0.01);
+	}
+
+	@Test
+	public void test_accrue_monthly_apr() {
+		Bank bank = new Bank();
+		Account account = new Account("12345678", 1.2);
+		account.setBalance(1000);
+		Bank.addAccount(account);
+
+		bank.processPassTime(1);
+
+		assertEquals(1001.00, Bank.getAccountByID("12345678").getBalance(), 0.01);
+	}
+
+	@Test
+	public void test_multiple_months_processing() {
+		Bank bank = new Bank();
+		Account account = new Account("12345678", 1.2);
+		account.setBalance(1000);
+		Bank.addAccount(account);
+
+		bank.processPassTime(2);
+
+		assertEquals(1002.00, Bank.getAccountByID("12345678").getBalance(), 0.01);
+	}
+
 }
