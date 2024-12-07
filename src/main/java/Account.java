@@ -1,3 +1,6 @@
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+
 public class Account {
 	protected String accountID;
 	protected double balance;
@@ -72,12 +75,14 @@ public class Account {
 		if (getBalance() > 0) {
 			double monthlyRate = (getAPR() / 100) / 12; // APR to monthly rate
 			double newBalance = getBalance() + (getBalance() * monthlyRate);
-			setBalance(roundToTwoDecimalPlaces(newBalance));
+			setBalance(truncateToTwoDecimalPlaces(newBalance)); // Truncate using DecimalFormat
 		}
 	}
 
-	private double roundToTwoDecimalPlaces(double value) {
-		return Math.round(value * 100.0) / 100.0;
+	private double truncateToTwoDecimalPlaces(double value) {
+		DecimalFormat decimalFormat = new DecimalFormat("0.00");
+		decimalFormat.setRoundingMode(RoundingMode.FLOOR); // Truncate to two decimals
+		return Double.parseDouble(decimalFormat.format(value));
 	}
 
 	public enum AccountType {
