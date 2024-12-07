@@ -70,9 +70,9 @@ public class Account {
 
 	public void accrueMonthlyApr() {
 		if (getBalance() > 0) {
-			double monthlyRate = (getAPR() / 100) / 12; // APR to monthly rate
+			double monthlyRate = (getAPR() / 100) / 12;
 			double newBalance = getBalance() + (getBalance() * monthlyRate);
-			setBalance((newBalance)); // Truncate using DecimalFormat
+			setBalance((newBalance));
 		}
 	}
 
