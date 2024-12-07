@@ -58,6 +58,28 @@ public class Account {
 		return type;
 	}
 
+	public boolean isZeroBalance() {
+		return getBalance() == 0;
+	}
+
+	public void deductMinimumBalanceFee() {
+		if (getBalance() < 100) {
+			setBalance(getBalance() - 25);
+		}
+	}
+
+	public void accrueMonthlyApr() {
+		if (getBalance() > 0) {
+			double monthlyRate = (getAPR() / 100) / 12; // APR to monthly rate
+			double newBalance = getBalance() + (getBalance() * monthlyRate);
+			setBalance(roundToTwoDecimalPlaces(newBalance));
+		}
+	}
+
+	private double roundToTwoDecimalPlaces(double value) {
+		return Math.round(value * 100.0) / 100.0;
+	}
+
 	public enum AccountType {
 		CHECKING, SAVINGS, CD
 	}

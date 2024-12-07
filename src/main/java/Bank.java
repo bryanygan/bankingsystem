@@ -34,4 +34,22 @@ public class Bank {
 	public int getNumberOfAccounts() {
 		return accounts.size();
 	}
+
+	public void removeAccount(String id) {
+		accounts.remove(id);
+	}
+
+	public void processPassTime(int months) {
+		for (int i = 0; i < months; i++) {
+			// close accounts with $0 balance
+			accounts.values().removeIf(Account::isZeroBalance);
+
+			// min balance fees + accrue APR for each account
+			for (Account account : accounts.values()) {
+				account.deductMinimumBalanceFee();
+				account.accrueMonthlyApr();
+			}
+		}
+	}
+
 }

@@ -80,4 +80,16 @@ public class BankTest {
 		bank.withdrawByID("12345678", 200);
 		assertEquals(100, checking.getBalance());
 	}
+
+	@Test
+	public void test_remove_account_with_zero_balance() {
+		Bank bank = new Bank();
+		Account account = new Account("12345678", 1.0);
+		Bank.addAccount(account);
+
+		bank.processPassTime(1);
+
+		assertNull(Bank.getAccountByID("12345678"));
+	}
+
 }
