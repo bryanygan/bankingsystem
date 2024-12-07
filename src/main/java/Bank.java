@@ -35,6 +35,10 @@ public class Bank {
 		return accounts.size();
 	}
 
+	public Map<String, Account> getAccountsMap() {
+		return accounts;
+	}
+
 	public void removeAccount(String id) {
 		accounts.remove(id);
 	}
