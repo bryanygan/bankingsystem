@@ -70,4 +70,16 @@ public class PassCommandProcessorTest {
 
 		assertEquals(500.0, Bank.getAccountByID("12345678").getBalance(), 0.01);
 	}
+
+	@Test
+	public void test_process_no_minimum_balance_fee_for_exact_100() {
+		Account account = new Account("12345678", 1.0);
+		account.setBalance(100);
+		Bank.addAccount(account);
+
+		processor.process("pass 1");
+
+		// Balance should remain unchanged
+		assertEquals(100.08, Bank.getAccountByID("12345678").getBalance(), 0.01);
+	}
 }
