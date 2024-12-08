@@ -1,8 +1,6 @@
 public class CreateCommand {
-	private Bank bank;
 
 	public CreateCommand(Bank bank) {
-		this.bank = bank;
 	}
 
 	public void execute(String[] commandParts) {
@@ -16,11 +14,11 @@ public class CreateCommand {
 		switch (accountType) {
 		case "checking":
 			Checking checkingAccount = new Checking(accountId, apr);
-			bank.addAccount(checkingAccount);
+			Bank.addAccount(checkingAccount);
 			break;
 		case "savings":
 			Savings savingsAccount = new Savings(accountId, apr);
-			bank.addAccount(savingsAccount);
+			Bank.addAccount(savingsAccount);
 			break;
 		case "cd":
 			if (commandParts.length != 5) {
@@ -29,7 +27,7 @@ public class CreateCommand {
 			}
 			double initialBalance = Double.parseDouble(commandParts[4]);
 			CertificateOfDeposit cdAccount = new CertificateOfDeposit(accountId, apr, initialBalance);
-			bank.addAccount(cdAccount);
+			Bank.addAccount(cdAccount);
 			break;
 		default:
 			throw new UnsupportedOperationException("Account type not supported");
