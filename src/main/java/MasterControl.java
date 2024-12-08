@@ -11,8 +11,8 @@ public class MasterControl {
 		this.invalidCommands = invalidCommands;
 	}
 
-	public List<String> start(List<String> commands) {
-		for (String command : commands) {
+	public List<String> start(List<String> input) {
+		for (String command : input) {
 			try {
 				commandProcessor.processCommand(command);
 			} catch (Exception e) {
