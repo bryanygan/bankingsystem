@@ -77,7 +77,12 @@ public class Account {
 	}
 
 	public enum AccountType {
-		CHECKING, SAVINGS, CD
+		Checking, Savings, Cd
+	}
+
+	@Override
+	public String toString() {
+		return String.format("%s %s %.2f %.2f", type, accountID, balance, APR);
 	}
 
 }

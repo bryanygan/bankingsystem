@@ -23,7 +23,7 @@ public class CreateCommand {
 		case "cd":
 			if (commandParts.length != 5) {
 				// no initial balance error
-				throw new IllegalArgumentException("Invalid CD command format");
+				throw new IllegalArgumentException("Invalid Cd command format");
 			}
 			double initialBalance = Double.parseDouble(commandParts[4]);
 			CertificateOfDeposit cdAccount = new CertificateOfDeposit(accountId, apr, initialBalance);

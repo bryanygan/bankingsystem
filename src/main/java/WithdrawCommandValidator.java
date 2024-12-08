@@ -28,7 +28,7 @@ public class WithdrawCommandValidator {
 
 		double amount = Double.parseDouble(parts[2]);
 
-		if (account.getType() == Account.AccountType.SAVINGS && amount > 1000) {
+		if (account.getType() == Account.AccountType.Savings && amount > 1000) {
 			return false;
 		}
 

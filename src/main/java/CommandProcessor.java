@@ -32,4 +32,20 @@ public class CommandProcessor {
 		return commandType.equals("create") || commandType.equals("deposit") || commandType.equals("withdraw")
 				|| commandType.equals("transfer") || commandType.equals("pass");
 	}
+
+	private void processCreateCommand(String[] parts) {
+		if (parts.length < 4) {
+			throw new IllegalArgumentException("Invalid create command: " + String.join(" ", parts));
+		}
+		String accountType = parts[1].toLowerCase();
+		String id = parts[2];
+		double apr = Double.parseDouble(parts[3]);
+
+		if (accountType.equals("savings")) {
+			Savings savings = new Savings(id, apr);
+			Bank.addAccount(savings);
+		} else {
+			throw new IllegalArgumentException("Invalid account type: " + accountType);
+		}
+	}
 }

@@ -2,18 +2,18 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Bank {
-	private static Map<String, Account> accounts;
+	private static Map<String, Account> accountsMap;
 
 	public Bank() {
-		accounts = new HashMap<>();
+		accountsMap = new HashMap<>();
 	}
 
 	public static Account getAccountByID(String accountID) {
-		return accounts.get(accountID);
+		return accountsMap.get(accountID);
 	}
 
 	public static void addAccount(Account account) {
-		accounts.put(account.getAccountID(), account);
+		accountsMap.put(account.getAccountID(), account);
 
 	}
 
@@ -32,24 +32,24 @@ public class Bank {
 	}
 
 	public int getNumberOfAccounts() {
-		return accounts.size();
+		return accountsMap.size();
 	}
 
 	public Map<String, Account> getAccountsMap() {
-		return accounts;
+		return new HashMap<>(accountsMap);
 	}
 
 	public void removeAccount(String id) {
-		accounts.remove(id);
+		accountsMap.remove(id);
 	}
 
 	public void processPassTime(int months) {
 		for (int i = 0; i < months; i++) {
-			// close accounts with $0 balance
-			accounts.values().removeIf(Account::isZeroBalance);
+			// close accountsMap with $0 balance
+			accountsMap.values().removeIf(Account::isZeroBalance);
 
 			// min balance fees + accrue APR for each account
-			for (Account account : accounts.values()) {
+			for (Account account : accountsMap.values()) {
 				account.deductMinimumBalanceFee();
 				account.accrueMonthlyApr();
 			}

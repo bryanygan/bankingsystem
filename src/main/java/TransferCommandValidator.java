@@ -12,7 +12,7 @@ public class TransferCommandValidator {
 			return false;
 		}
 
-		if (fromAccount.getType() == Account.AccountType.CD || toAccount.getType() == Account.AccountType.CD) {
+		if (fromAccount.getType() == Account.AccountType.Cd || toAccount.getType() == Account.AccountType.Cd) {
 			return false;
 		}
 
@@ -21,15 +21,15 @@ public class TransferCommandValidator {
 			return false;
 		}
 
-		if (fromAccount.getType() == Account.AccountType.SAVINGS && amount > 1000) {
+		if (fromAccount.getType() == Account.AccountType.Savings && amount > 1000) {
 			return false;
 		}
 
-		if (toAccount.getType() == Account.AccountType.CHECKING && amount > 400) {
+		if (toAccount.getType() == Account.AccountType.Checking && amount > 400) {
 			return false;
 		}
 
-		if (toAccount.getType() == Account.AccountType.SAVINGS && amount > 2500) {
+		if (toAccount.getType() == Account.AccountType.Savings && amount > 2500) {
 			return false;
 		}
 
