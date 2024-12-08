@@ -12,7 +12,7 @@ public class CommandProcessor {
 		if (!isValidCommand(parts)) {
 			throw new IllegalArgumentException("Invalid command: " + command);
 		}
-		switch (parts[0]) {
+		switch (parts[0].toLowerCase()) {
 		case "create":
 			createCommand.execute(parts);
 			break;
@@ -31,21 +31,5 @@ public class CommandProcessor {
 		String commandType = parts[0].toLowerCase();
 		return commandType.equals("create") || commandType.equals("deposit") || commandType.equals("withdraw")
 				|| commandType.equals("transfer") || commandType.equals("pass");
-	}
-
-	private void processCreateCommand(String[] parts) {
-		if (parts.length < 4) {
-			throw new IllegalArgumentException("Invalid create command: " + String.join(" ", parts));
-		}
-		String accountType = parts[1].toLowerCase();
-		String id = parts[2];
-		double apr = Double.parseDouble(parts[3]);
-
-		if (accountType.equals("savings")) {
-			Savings savings = new Savings(id, apr);
-			Bank.addAccount(savings);
-		} else {
-			throw new IllegalArgumentException("Invalid account type: " + accountType);
-		}
 	}
 }

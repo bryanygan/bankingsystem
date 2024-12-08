@@ -13,6 +13,9 @@ public class Bank {
 	}
 
 	public static void addAccount(Account account) {
+		if (accountsMap.containsKey(account.getAccountID())) {
+			throw new IllegalArgumentException("Account with ID " + account.getAccountID() + " already exists");
+		}
 		accountsMap.put(account.getAccountID(), account);
 
 	}
