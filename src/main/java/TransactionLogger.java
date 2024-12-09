@@ -1,27 +1,32 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class TransactionLogger {
 
-	private final List<String> transactionLog;
+	private final Map<String, List<String>> transactionLogByAccount;
 
 	public TransactionLogger() {
-		this.transactionLog = new ArrayList<>();
+		this.transactionLogByAccount = new HashMap<>();
 	}
 
 	public void logTransaction(String accountID, String transactionType, double amount) {
 		String logEntry = String.format("%s %s %.2f", transactionType, accountID, amount);
-		transactionLog.add(logEntry);
+		transactionLogByAccount.computeIfAbsent(accountID, k -> new ArrayList<>()).add(logEntry);
 	}
 
-	public List<String> getTransactionLog() {
-		return transactionLog;
+	public List<String> getTransactionLog(String accountID) {
+		return transactionLogByAccount.getOrDefault(accountID, new ArrayList<>());
 	}
 
 	public String generateOutput(String accountState) {
+		String accountID = accountState.split(" ")[1];
+		List<String> transactions = transactionLogByAccount.getOrDefault(accountID, new ArrayList<>());
+
 		StringBuilder output = new StringBuilder();
 		output.append(accountState).append("\n");
-		for (String log : transactionLog) {
+		for (String log : transactions) {
 			output.append(log).append("\n");
 		}
 		return output.toString().trim();
