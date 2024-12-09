@@ -12,6 +12,7 @@ public class MasterControlTest {
 	private CommandProcessor commandProcessor;
 	private InvalidCommands invalidCommands;
 	private MasterControl masterControl;
+	private TransactionLogger transactionLogger;
 
 	@BeforeEach
 	public void setUp() {
@@ -19,7 +20,8 @@ public class MasterControlTest {
 		commandProcessor = new CommandProcessor(bank);
 		invalidCommands = new InvalidCommands();
 		commandValidation = new CommandValidation(bank, invalidCommands);
-		masterControl = new MasterControl(commandValidation, commandProcessor, invalidCommands);
+		transactionLogger = new TransactionLogger();
+		masterControl = new MasterControl(commandValidation, commandProcessor, invalidCommands, transactionLogger);
 	}
 
 	@Test
@@ -84,7 +86,7 @@ public class MasterControlTest {
 
 		List<String> result = masterControl.start(input);
 
-		assertEquals(0, result.size());
+		assertEquals(0, invalidCommands.getInvalidCommands().size());
 	}
 
 	@Test
@@ -108,9 +110,9 @@ public class MasterControlTest {
 
 		List<String> result = masterControl.start(input);
 
-		assertEquals(2, result.size());
-		assertEquals("create investment 87654321 2.0", result.get(0));
-		assertEquals("deposit 99999999 50", result.get(1));
+		assertEquals(2, invalidCommands.getInvalidCommands().size());
+		assertEquals("create investment 87654321 2.0", invalidCommands.getInvalidCommands().get(0));
+		assertEquals("deposit 99999999 50", invalidCommands.getInvalidCommands().get(1));
 
 	}
 
@@ -135,6 +137,6 @@ public class MasterControlTest {
 
 		List<String> result = masterControl.start(input);
 
-		assertEquals(0, result.size());
+		assertEquals(0, invalidCommands.getInvalidCommands().size());
 	}
 }

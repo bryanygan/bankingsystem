@@ -11,7 +11,9 @@ public class OutputTest {
 	private final CommandProcessor commandProcessor = new CommandProcessor(bank);
 	private final InvalidCommands invalidCommands = new InvalidCommands();
 	private final CommandValidation commandValidation = new CommandValidation(bank, invalidCommands);
-	private final MasterControl masterControl = new MasterControl(commandValidation, commandProcessor, invalidCommands);
+	private final TransactionLogger transactionLogger = new TransactionLogger();
+	private final MasterControl masterControl = new MasterControl(commandValidation, commandProcessor, invalidCommands,
+			transactionLogger);
 	List<String> input = new ArrayList<>();
 
 	@Test
@@ -38,8 +40,8 @@ public class OutputTest {
 		List<String> input = List.of("create savings 12345678 0.6", "depositt 12345678 500");
 		List<String> output = masterControl.start(input);
 
-		assertEquals(1, output.size());
-		assertEquals("depositt 12345678 500", output.get(0));
+		assertEquals(1, invalidCommands.getInvalidCommands().size());
+		assertEquals("depositt 12345678 500", invalidCommands.getInvalidCommands().get(0));
 
 		Map<String, Account> accountsMap = Bank.getAccountsMap();
 		assertEquals(1, accountsMap.size());
@@ -61,8 +63,8 @@ public class OutputTest {
 		List<String> input = List.of("create savings 12345678 0.6", "create savings 12345678 0.7");
 		List<String> output = masterControl.start(input);
 
-		assertEquals(1, output.size());
-		assertEquals("create savings 12345678 0.7", output.get(0));
+		assertEquals(1, invalidCommands.getInvalidCommands().size());
+		assertEquals("create savings 12345678 0.7", invalidCommands.getInvalidCommands().get(0));
 
 		Map<String, Account> accountsMap = Bank.getAccountsMap();
 		assertEquals(1, accountsMap.size());
