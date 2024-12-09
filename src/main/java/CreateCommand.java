@@ -1,10 +1,10 @@
 public class CreateCommand {
 	private final Bank bank;
-	private final InvalidCommands invalidCommands;
+	private InvalidCommands invalidCommands = new InvalidCommands();
 
 	public CreateCommand(Bank bank, InvalidCommands invalidCommands) {
 		this.bank = bank;
-		this.invalidCommands = invalidCommands;
+		this.invalidCommands = invalidCommands != null ? invalidCommands : new InvalidCommands();
 
 	}
 

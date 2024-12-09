@@ -19,7 +19,7 @@ public class OutputTest {
 		List<String> input = List.of("create savings 12345678 0.6");
 		masterControl.start(input);
 
-		Map<String, Account> accountsMap = bank.getAccountsMap();
+		Map<String, Account> accountsMap = Bank.getAccountsMap();
 		assertEquals(1, accountsMap.size());
 		assertEquals("Savings 12345678 0.00 0.60", accountsMap.get("12345678").toString());
 	}
@@ -41,7 +41,7 @@ public class OutputTest {
 		assertEquals(1, output.size());
 		assertEquals("depositt 12345678 500", output.get(0));
 
-		Map<String, Account> accountsMap = bank.getAccountsMap();
+		Map<String, Account> accountsMap = Bank.getAccountsMap();
 		assertEquals(1, accountsMap.size());
 		assertEquals("Savings 12345678 0.00 0.60", accountsMap.get("12345678").toString());
 	}
@@ -51,7 +51,7 @@ public class OutputTest {
 		List<String> input = List.of("CrEaTe savings 87654321 0.3");
 		masterControl.start(input);
 
-		Map<String, Account> accountsMap = bank.getAccountsMap();
+		Map<String, Account> accountsMap = Bank.getAccountsMap();
 		assertEquals(1, accountsMap.size());
 		assertEquals("Savings 87654321 0.00 0.30", accountsMap.get("87654321").toString());
 	}
@@ -64,10 +64,36 @@ public class OutputTest {
 		assertEquals(1, output.size());
 		assertEquals("create savings 12345678 0.7", output.get(0));
 
-		Map<String, Account> accountsMap = bank.getAccountsMap();
+		Map<String, Account> accountsMap = Bank.getAccountsMap();
 		assertEquals(1, accountsMap.size());
 		assertEquals("Savings 12345678 0.00 0.60", accountsMap.get("12345678").toString());
 	}
+
+//	@Test
+//	public void sample_make_sure_this_passes_unchanged_or_you_will_fail() {
+//		Bank bank = new Bank();
+//
+//		input.add("Create savings 12345678 0.6");
+//		input.add("Deposit 12345678 700");
+//		input.add("Deposit 12345678 5000");
+//		input.add("creAte cHecKing 98765432 0.01");
+//		input.add("Deposit 98765432 300");
+//		input.add("Transfer 98765432 12345678 300");
+//		input.add("Pass 1");
+//		input.add("Create cd 23456789 1.2 2000");
+//
+//		List<String> actual = masterControl.start(input);
+//
+//		Map<String, Account> accounts = Bank.getAccountsMap();
+//		System.out.println("Accounts Map: " + accounts);
+//
+//		assertEquals(5, actual.size());
+//		assertEquals("Savings 12345678 1000.50 0.60", actual.get(0));
+//		assertEquals("Deposit 12345678 700", actual.get(1));
+//		assertEquals("Transfer 98765432 12345678 300", actual.get(2));
+//		assertEquals("Cd 23456789 2000.00 1.20", actual.get(3));
+//		assertEquals("Deposit 12345678 5000", actual.get(4));
+//	}
 
 //	@Test
 //	public void sample_make_sure_this_passes_unchanged_or_you_will_fail() {

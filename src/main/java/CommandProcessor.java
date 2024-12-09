@@ -4,6 +4,7 @@ public class CommandProcessor {
 	private InvalidCommands invalidCommands;
 
 	public CommandProcessor(Bank bank) {
+		this.invalidCommands = new InvalidCommands();
 		this.createCommand = new CreateCommand(bank, invalidCommands);
 		this.depositCommand = new DepositCommand(bank);
 	}
@@ -11,7 +12,8 @@ public class CommandProcessor {
 	public void processCommand(String command) {
 		String[] parts = command.split(" ");
 		if (!isValidCommand(parts)) {
-			throw new IllegalArgumentException("Invalid command: " + command);
+			invalidCommands.addInvalidCommand(command.toString());
+			return;
 		}
 		switch (parts[0].toLowerCase()) {
 		case "create":
@@ -21,7 +23,7 @@ public class CommandProcessor {
 			depositCommand.execute(parts);
 			break;
 		default:
-			throw new UnsupportedOperationException("Command not supported");
+			invalidCommands.addInvalidCommand(command.toString());
 		}
 	}
 

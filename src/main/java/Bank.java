@@ -1,11 +1,11 @@
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class Bank {
 	private static Map<String, Account> accountsMap;
 
 	public Bank() {
-		accountsMap = new HashMap<>();
+		accountsMap = new LinkedHashMap<>();
 	}
 
 	public static Account getAccountByID(String accountID) {
@@ -38,8 +38,8 @@ public class Bank {
 		return accountsMap.size();
 	}
 
-	public Map<String, Account> getAccountsMap() {
-		return new HashMap<>(accountsMap);
+	public static Map<String, Account> getAccountsMap() {
+		return accountsMap;
 	}
 
 	public void removeAccount(String id) {
