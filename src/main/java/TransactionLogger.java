@@ -17,4 +17,13 @@ public class TransactionLogger {
 	public List<String> getTransactionLog() {
 		return transactionLog;
 	}
+
+	public String generateOutput(String accountState) {
+		StringBuilder output = new StringBuilder();
+		output.append(accountState).append("\n");
+		for (String log : transactionLog) {
+			output.append(log).append("\n");
+		}
+		return output.toString().trim();
+	}
 }

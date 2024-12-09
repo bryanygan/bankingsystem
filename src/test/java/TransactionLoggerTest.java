@@ -32,4 +32,24 @@ public class TransactionLoggerTest {
 		assertEquals("Deposit 12345678 700.00", logs.get(0));
 		assertEquals("Withdraw 12345678 300.00", logs.get(1));
 	}
+
+	@Test
+	public void test_output_formatting() {
+		TransactionLogger logger = new TransactionLogger();
+		String accountID = "12345678";
+		String accountState = "Savings 12345678 1000.50 0.60";
+
+		logger.logTransaction(accountID, "Deposit", 700);
+		logger.logTransaction(accountID, "Withdraw", 300);
+
+		String formattedOutput = logger.generateOutput(accountState);
+
+		String expectedOutput = """
+				Savings 12345678 1000.50 0.60
+				Deposit 12345678 700.00
+				Withdraw 12345678 300.00
+				""";
+
+		assertEquals(expectedOutput.trim(), formattedOutput.trim());
+	}
 }
