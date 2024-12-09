@@ -20,15 +20,13 @@ public class TransactionLogger {
 		return transactionLogByAccount.getOrDefault(accountID, new ArrayList<>());
 	}
 
-	public String generateOutput(String accountState) {
+	public List<String> generateOutput(String accountState) {
 		String accountID = accountState.split(" ")[1];
 		List<String> transactions = transactionLogByAccount.getOrDefault(accountID, new ArrayList<>());
 
-		StringBuilder output = new StringBuilder();
-		output.append(accountState).append("\n");
-		for (String log : transactions) {
-			output.append(log).append("\n");
-		}
-		return output.toString().trim();
+		List<String> output = new ArrayList<>();
+		output.add(accountState);
+		output.addAll(transactions);
+		return output;
 	}
 }

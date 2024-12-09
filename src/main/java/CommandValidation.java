@@ -3,7 +3,7 @@ public class CommandValidation {
 	private final Bank bank;
 	private final InvalidCommands invalidCommands;
 	private final CreateCommand createCommand;
-	private final DepositCommand depositCommand;
+	private final DepositCommandValidation depositCommandValidation;
 	private final TransferCommandValidator transferCommandValidator;
 	private final WithdrawCommandValidator withdrawCommandValidator;
 	private final AccountNumberValidation accountNumberValidation;
@@ -13,7 +13,7 @@ public class CommandValidation {
 		this.invalidCommands = invalidCommands;
 
 		this.createCommand = new CreateCommand(bank, invalidCommands);
-		this.depositCommand = new DepositCommand(bank);
+		this.depositCommandValidation = new DepositCommandValidation();
 		this.transferCommandValidator = new TransferCommandValidator();
 		this.withdrawCommandValidator = new WithdrawCommandValidator();
 		this.accountNumberValidation = new AccountNumberValidation();
@@ -28,14 +28,24 @@ public class CommandValidation {
 		String commandType = parts[0].toLowerCase();
 		switch (commandType) {
 		case "create":
+			System.out.println("Validating create command");
+			System.out.println("Create Command Status: " + validateCreateCommand(command));
 			return validateCreateCommand(command);
 		case "deposit":
-			return validateDepositCommand(command);
+			System.out.println("Validating deposit command");
+			System.out.println("Deposit Command Status: " + depositCommandValidation.validateDepositCommand(command));
+			return depositCommandValidation.validateDepositCommand(command);
 		case "withdraw":
+			System.out.println("Validating withdraw command");
+			System.out.println("Withdraw Command Status: " + withdrawCommandValidator.isValidCommand(command, bank));
 			return withdrawCommandValidator.isValidCommand(command, bank);
 		case "transfer":
+			System.out.println("Validating transfer command");
+			System.out.println("Transfer Command Status: " + validateTransferCommand(command));
 			return validateTransferCommand(command);
 		case "pass":
+			System.out.println("Validating pass command");
+			System.out.println("Pass Command Status: " + validatePassCommand(command));
 			return validatePassCommand(command);
 		default:
 			return false;
@@ -45,6 +55,7 @@ public class CommandValidation {
 	public boolean validateCreateCommand(String command) {
 		String[] parts = CommandParsing.parseCommand(command);
 		if (parts == null || parts.length < 3 || parts.length > 5 || !parts[0].equals("create")) {
+			System.out.println("1st fail");
 			return false;
 		}
 
@@ -53,53 +64,45 @@ public class CommandValidation {
 		String additionalParam = parts.length > 3 ? parts[3] : null;
 
 		if (!AccountTypeValidation.isValidAccountType(accountType)) {
+			System.out.println("2nd fail");
 			return false;
 		}
 
-		if (!accountNumberValidation.isValidAccountNumber(accountNumber)
-				|| !accountNumberValidation.isUniqueAccountId(accountNumber)) {
+		if (accountNumberValidation.isValidAccountNumber(accountNumber)) {
+			System.out.println("3rd fail 1");
 			return false;
 		}
 
 		if (!accountType.equals("savings") && !accountType.equals("checking") && !accountType.equals("cd")) {
+			System.out.println("4th fail");
 			return false;
 		}
 
 		if (accountType.equals("savings") || accountType.equals("checking")) {
 			if (additionalParam == null || !isPositiveDecimal(additionalParam)
 					|| !additionalParam.matches("\\d+(\\.\\d{1,2})?") || parts.length > 4) {
+				System.out.println("5th fail");
 				return false;
 			}
 		} else if (accountType.equals("cd")) {
 			if (parts.length != 5) {
+				System.out.println("6th fail");
 				return false;
 			}
 			if (additionalParam == null || !isPositiveDecimal(additionalParam)
 					|| !CdAccountValidation.validateApr(Double.parseDouble(additionalParam))) {
+				System.out.println("7th fail");
 				return false;
 			}
 			double cdBalance = Double.parseDouble(parts[4]);
 			if (!CdAccountValidation.validateCdBalance(cdBalance)) {
+				System.out.println("8th fail");
 				return false;
 			}
 		}
 
 		accountNumberValidation.registerAccountId(accountNumber);
 		return true;
-	}
-
-	private boolean validateDepositCommand(String command) {
-		try {
-			String[] parts = CommandParsing.parseCommand(command);
-			if (parts == null) {
-				return false;
-			}
-
-			depositCommand.execute(parts);
-			return true;
-		} catch (IllegalArgumentException e) {
-			return false;
-		}
 	}
 
 	private boolean validateTransferCommand(String command) {

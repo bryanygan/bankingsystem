@@ -23,8 +23,12 @@ public class MasterControl {
 				System.out.println("Processing valid command: " + command);
 				commandProcessor.processCommand(command);
 				String[] commandParts = CommandParsing.parseCommand(command);
-				String accountID = commandParts[1];
-				transactionLogger.logTransaction(accountID, commandParts[0], Double.parseDouble(commandParts[2]));
+				String commandType = commandParts[0].toLowerCase();
+				if (!commandType.equals("pass")) {
+					String accountID = commandParts[1];
+					double amount = commandParts.length > 2 ? Double.parseDouble(commandParts[2]) : 0;
+					transactionLogger.logTransaction(accountID, commandType, amount);
+				}
 			} else {
 				System.out.println("Invalid command: " + command);
 				invalidCommands.addInvalidCommand(command);
@@ -33,11 +37,11 @@ public class MasterControl {
 		for (String accountID : Bank.getAccountsMap().keySet()) {
 			Account account = Bank.getAccountByID(accountID);
 			String accountState = account.toString();
-			output.add(transactionLogger.generateOutput(accountState));
+			output.addAll(transactionLogger.generateOutput(accountState));
 		}
 
 		output.addAll(invalidCommands.getInvalidCommands());
-		System.out.println(output);
+		System.out.println("Final output: " + output);
 		return output;
 	}
 }

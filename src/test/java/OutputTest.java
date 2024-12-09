@@ -71,6 +71,20 @@ public class OutputTest {
 		assertEquals("Savings 12345678 0.00 0.60", accountsMap.get("12345678").toString());
 	}
 
+	@Test
+	public void deposit_12345678_5000_shouldnt_pass() {
+		Bank bank = new Bank();
+
+		input.add("Create savings 12345678 0.6");
+		input.add("Deposit 12345678 5000");
+		List<String> actual = masterControl.start(input);
+		System.out.println(actual);
+
+		assertEquals(1, invalidCommands.getInvalidCommands().size());
+		assertEquals("Deposit 12345678 5000", invalidCommands.getInvalidCommands().get(0));
+
+	}
+
 //	@Test
 //	public void sample_make_sure_this_passes_unchanged_or_you_will_fail() {
 //		Bank bank = new Bank();

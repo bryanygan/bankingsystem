@@ -42,10 +42,10 @@ public class TransactionLoggerTest {
 		logger.logTransaction(accountID, "Deposit", 700);
 		logger.logTransaction(accountID, "Withdraw", 300);
 
-		String formattedOutput = logger.generateOutput(accountState);
+		List<String> formattedOutput = logger.generateOutput(accountState);
 
-		String expectedOutput = "Savings 12345678 1000.50 0.60\n" + "Deposit 12345678 700.00\n"
-				+ "Withdraw 12345678 300.00";
+		List<String> expectedOutput = List.of("Savings 12345678 1000.50 0.60", "Deposit 12345678 700.00",
+				"Withdraw 12345678 300.00");
 
 		assertEquals(expectedOutput, formattedOutput);
 	}
@@ -61,13 +61,13 @@ public class TransactionLoggerTest {
 		String accountState2 = "Checking 98765432 300.00 0.01";
 		logger.logTransaction("98765432", "Deposit", 300);
 
-		String formattedOutput1 = logger.generateOutput(accountState1);
-		String formattedOutput2 = logger.generateOutput(accountState2);
+		List<String> formattedOutput1 = logger.generateOutput(accountState1);
+		List<String> formattedOutput2 = logger.generateOutput(accountState2);
 
-		String expectedOutput1 = "Savings 12345678 1000.50 0.60\n" + "Deposit 12345678 700.00\n"
-				+ "Transfer 12345678 300.00";
+		List<String> expectedOutput1 = List.of("Savings 12345678 1000.50 0.60", "Deposit 12345678 700.00",
+				"Transfer 12345678 300.00");
 
-		String expectedOutput2 = "Checking 98765432 300.00 0.01\n" + "Deposit 98765432 300.00";
+		List<String> expectedOutput2 = List.of("Checking 98765432 300.00 0.01", "Deposit 98765432 300.00");
 
 		assertEquals(expectedOutput1, formattedOutput1);
 		assertEquals(expectedOutput2, formattedOutput2);

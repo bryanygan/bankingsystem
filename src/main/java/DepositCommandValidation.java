@@ -3,6 +3,7 @@ public class DepositCommandValidation {
 	private final AccountNumberValidation accountNumberValidation = new AccountNumberValidation();
 
 	public boolean validateDepositCommand(String command) {
+
 		String[] parts = CommandParsing.parseCommand(command);
 		if (parts == null || parts.length != 3 || !parts[0].equalsIgnoreCase("deposit")) {
 			return false;
@@ -11,7 +12,14 @@ public class DepositCommandValidation {
 		String accountId = parts[1];
 		String amountStr = parts[2];
 
-		if (!accountNumberValidation.isValidAccountNumber(accountId)) {
+		Account account = Bank.getAccountByID(accountId);
+		System.out.println("Debug: Account type: " + account.getType());
+
+		if (accountNumberValidation.isValidAccountNumber(accountId)) {
+			return false;
+		}
+
+		if (accountNumberValidation.isUniqueAccountId(accountId)) {
 			return false;
 		}
 
@@ -26,8 +34,10 @@ public class DepositCommandValidation {
 			return false;
 		}
 
-		Account account = Bank.getAccountByID(accountId);
-		if (account == null) {
+		if (amount > 2500 && account.getType() == Account.AccountType.Savings) {
+			return false;
+		}
+		if (amount > 1000 && account.getType() == Account.AccountType.Checking) {
 			return false;
 		}
 

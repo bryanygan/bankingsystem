@@ -6,11 +6,12 @@ import org.junit.jupiter.api.Test;
 
 public class PassCommandProcessorTest {
 	private PassCommandProcessor processor;
+	private TransactionLogger transactionLogger;
 
 	@BeforeEach
 	public void setUp() {
 		Bank bank = new Bank();
-		processor = new PassCommandProcessor(bank);
+		processor = new PassCommandProcessor(bank, transactionLogger);
 	}
 
 	@Test
