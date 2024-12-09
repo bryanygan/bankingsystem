@@ -20,9 +20,7 @@ public class MasterControl {
 
 		for (String command : input) {
 			if (commandValidation.validateCommand(command)) {
-				System.out.println("Processing valid command: " + command);
 				commandProcessor.processCommand(command);
-				System.out.println("Accounts Map: " + Bank.getAccountsMap());
 				String[] commandParts = CommandParsing.parseCommand(command);
 				String commandType = commandParts[0].toLowerCase();
 				if (!commandType.equals("pass")) {
@@ -35,8 +33,6 @@ public class MasterControl {
 					transactionLogger.logTransaction(accountID, commandType, amount);
 				}
 			} else {
-				System.out.println("Invalid command: " + command);
-				System.out.println("Accounts Map: " + Bank.getAccountsMap());
 				invalidCommands.addInvalidCommand(command);
 			}
 		}
@@ -47,7 +43,6 @@ public class MasterControl {
 		}
 
 		output.addAll(invalidCommands.getInvalidCommands());
-		System.out.println("Final output: " + output);
 		return output;
 	}
 }

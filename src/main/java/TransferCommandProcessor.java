@@ -20,8 +20,6 @@ public class TransferCommandProcessor {
 
 		toAccount.deposit(actualWithdrawn);
 
-		System.out.println("Raw Transfer Command: " + command.getRawCommand());
-
 		String rawCommand = command.getRawCommand();
 
 		transactionLogger.logTransactionRaw(command.getFromId(), rawCommand);
