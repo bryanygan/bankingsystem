@@ -16,6 +16,29 @@ public class TransactionLogger {
 		transactionLogByAccount.computeIfAbsent(accountID, k -> new ArrayList<>()).add(logEntry);
 	}
 
+	public void logTransactionRaw(String accountID, String rawCommand) {
+		if (rawCommand != null && !rawCommand.trim().isEmpty()) {
+			String[] commandParts = CommandParsing.parseCommand(rawCommand);
+			if (commandParts != null && commandParts.length > 0 && "transfer".equalsIgnoreCase(commandParts[0])) {
+				if (commandParts.length >= 4) {
+					String fromID = commandParts[1];
+					String toID = commandParts[2];
+
+					transactionLogByAccount.computeIfAbsent(fromID, k -> new ArrayList<>()).add(rawCommand);
+					transactionLogByAccount.computeIfAbsent(toID, k -> new ArrayList<>()).add(rawCommand);
+				} else {
+					transactionLogByAccount.computeIfAbsent(accountID, k -> new ArrayList<>()).add(rawCommand);
+				}
+			} else {
+				transactionLogByAccount.computeIfAbsent(accountID, k -> new ArrayList<>()).add(rawCommand);
+			}
+		}
+	}
+
+	public void removeTransactionsForAccount(String accountID) {
+		transactionLogByAccount.remove(accountID);
+	}
+
 	public List<String> getTransactionLog(String accountID) {
 		return transactionLogByAccount.getOrDefault(accountID, new ArrayList<>());
 	}

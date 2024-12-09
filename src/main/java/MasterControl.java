@@ -22,15 +22,21 @@ public class MasterControl {
 			if (commandValidation.validateCommand(command)) {
 				System.out.println("Processing valid command: " + command);
 				commandProcessor.processCommand(command);
+				System.out.println("Accounts Map: " + Bank.getAccountsMap());
 				String[] commandParts = CommandParsing.parseCommand(command);
 				String commandType = commandParts[0].toLowerCase();
 				if (!commandType.equals("pass")) {
+					if (commandType.equals("transfer")) {
+						transactionLogger.logTransactionRaw(commandParts[1], command);
+						transactionLogger.logTransactionRaw(commandParts[2], command);
+					}
 					String accountID = commandParts[1];
 					double amount = commandParts.length > 2 ? Double.parseDouble(commandParts[2]) : 0;
 					transactionLogger.logTransaction(accountID, commandType, amount);
 				}
 			} else {
 				System.out.println("Invalid command: " + command);
+				System.out.println("Accounts Map: " + Bank.getAccountsMap());
 				invalidCommands.addInvalidCommand(command);
 			}
 		}

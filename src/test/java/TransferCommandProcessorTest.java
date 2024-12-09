@@ -12,7 +12,7 @@ public class TransferCommandProcessorTest {
 	@BeforeEach
 	public void setUp() {
 		bank = new Bank();
-		processor = new TransferCommandProcessor();
+		processor = new TransferCommandProcessor(new TransactionLogger());
 	}
 
 	@Test

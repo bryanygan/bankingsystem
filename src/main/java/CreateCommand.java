@@ -1,10 +1,12 @@
 public class CreateCommand {
 	private final Bank bank;
 	private InvalidCommands invalidCommands = new InvalidCommands();
+	private AccountNumberValidation accountNumberValidation = new AccountNumberValidation();
 
 	public CreateCommand(Bank bank, InvalidCommands invalidCommands) {
 		this.bank = bank;
 		this.invalidCommands = invalidCommands != null ? invalidCommands : new InvalidCommands();
+		this.accountNumberValidation = accountNumberValidation;
 
 	}
 
@@ -14,7 +16,7 @@ public class CreateCommand {
 			return;
 		}
 
-		String accountType = commandParts[1];
+		String accountType = commandParts[1].toLowerCase();
 		String accountId = commandParts[2];
 		double apr = Double.parseDouble(commandParts[3]);
 
@@ -22,6 +24,8 @@ public class CreateCommand {
 		case "checking":
 			Checking checkingAccount = new Checking(accountId, apr);
 			Bank.addAccount(checkingAccount);
+			accountNumberValidation.registerAccountId(accountId);
+
 			break;
 		case "savings":
 			Savings savingsAccount = new Savings(accountId, apr);

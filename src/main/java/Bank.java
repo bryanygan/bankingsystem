@@ -4,8 +4,11 @@ import java.util.Map;
 public class Bank {
 	private static Map<String, Account> accountsMap;
 
+	private final TransactionLogger transactionLogger;
+
 	public Bank() {
 		accountsMap = new LinkedHashMap<>();
+		transactionLogger = new TransactionLogger();
 	}
 
 	public static Account getAccountByID(String accountID) {
@@ -18,6 +21,10 @@ public class Bank {
 		}
 		accountsMap.put(account.getAccountID(), account);
 
+	}
+
+	public static Map<String, Account> getAccountsMap() {
+		return accountsMap;
 	}
 
 	public void depositByID(String accountID, double amount) {
@@ -38,12 +45,9 @@ public class Bank {
 		return accountsMap.size();
 	}
 
-	public static Map<String, Account> getAccountsMap() {
-		return accountsMap;
-	}
-
-	public void removeAccount(String id) {
-		accountsMap.remove(id);
+	public void removeAccount(String accountID) {
+		accountsMap.remove(accountID);
+		transactionLogger.removeTransactionsForAccount(accountID);
 	}
 
 	public void processPassTime(int months) {

@@ -5,6 +5,10 @@ public class AccountNumberValidation {
 
 	private Set<String> existingAccountIds = new HashSet<>();
 
+	public void registerAccountId(String accountId) {
+		existingAccountIds.add(accountId);
+	}
+
 	public boolean isValidAccountNumber(String accountNumber) {
 		return !accountNumber.matches("\\d{8}");
 	}
@@ -13,7 +17,4 @@ public class AccountNumberValidation {
 		return !existingAccountIds.contains(accountId);
 	}
 
-	public void registerAccountId(String accountId) {
-		existingAccountIds.add(accountId);
-	}
 }

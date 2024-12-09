@@ -63,6 +63,10 @@ public class CommandValidation {
 		String accountNumber = parts[2];
 		String additionalParam = parts.length > 3 ? parts[3] : null;
 
+		if (Bank.getAccountByID(accountNumber) != null) {
+			return false;
+		}
+
 		if (!AccountTypeValidation.isValidAccountType(accountType)) {
 			System.out.println("2nd fail");
 			return false;

@@ -86,6 +86,37 @@ public class OutputTest {
 	}
 
 //	@Test
+//	public void testRemoveAccountAlsoRemovesTransactions() {
+//		Bank bank = new Bank();
+//		TransactionLogger logger = new TransactionLogger();
+//
+//		Checking checking = new Checking("12345678", 0);
+//		Bank.addAccount(checking);
+//
+//		logger.logTransaction("12345678", "deposit", 100.0);
+//		logger.logTransaction("12345678", "withdraw", 50.0);
+//
+//		bank.removeAccount("12345678");
+//
+//		assertNull(Bank.getAccountByID("12345678"));
+//		System.out.println(Bank.getAccountsMap());
+//		System.out.println(logger.getTransactionLog("12345678"));
+//		assertTrue(logger.getTransactionLog("12345678").isEmpty());
+//	}
+
+//	@Test
+//	public void transfer_command_stays_the_same_and_is_logged() {
+//		Bank bank = new Bank();
+//		input.add("Create savings 12345678 0.6");
+//		input.add("Deposit 12345678 700");
+//		input.add("creAte cHecKing 98765432 0.01");
+//		input.add("Deposit 98765432 300");
+//		input.add("Transfer 98765432 12345678 300");
+//		List<String> actual = masterControl.start(input);
+//		System.out.println(actual);
+//	}
+
+//	@Test
 //	public void sample_make_sure_this_passes_unchanged_or_you_will_fail() {
 //		Bank bank = new Bank();
 //
