@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 
 public class MasterControlTest {
 	private Bank bank;
+	private CommandValidation commandValidation;
 	private CommandProcessor commandProcessor;
 	private InvalidCommands invalidCommands;
 	private MasterControl masterControl;
@@ -17,7 +18,8 @@ public class MasterControlTest {
 		bank = new Bank();
 		commandProcessor = new CommandProcessor(bank);
 		invalidCommands = new InvalidCommands();
-		masterControl = new MasterControl(bank, commandProcessor, invalidCommands);
+		commandValidation = new CommandValidation(bank, invalidCommands);
+		masterControl = new MasterControl(commandValidation, commandProcessor, invalidCommands);
 	}
 
 	@Test
@@ -77,20 +79,20 @@ public class MasterControlTest {
 
 	@Test
 	public void test_process_valid_command() {
-		List<String> commands = new ArrayList<>();
-		commands.add("create checking 12345678 1.0");
+		List<String> input = new ArrayList<>();
+		input.add("create checking 12345678 1.0");
 
-		List<String> result = masterControl.start(commands);
+		List<String> result = masterControl.start(input);
 
 		assertEquals(0, result.size());
 	}
 
 	@Test
 	public void test_process_invalid_command() {
-		List<String> commands = new ArrayList<>();
-		commands.add("create investment 87654321 2.0");
+		List<String> input = new ArrayList<>();
+		input.add("create investment 87654321 2.0");
 
-		List<String> result = masterControl.start(commands);
+		List<String> result = masterControl.start(input);
 
 		assertEquals(1, result.size());
 		assertEquals("create investment 87654321 2.0", result.get(0));
@@ -98,13 +100,13 @@ public class MasterControlTest {
 
 	@Test
 	public void test_process_mixed_valid_and_invalid_commands() {
-		List<String> commands = new ArrayList<>();
-		commands.add("create checking 12345678 1.0"); // valid
-		commands.add("create investment 87654321 2.0"); // invalid
-		commands.add("deposit 12345678 100"); // valid
-		commands.add("deposit 99999999 50"); // invalid
+		List<String> input = new ArrayList<>();
+		input.add("create checking 12345678 1.0"); // valid
+		input.add("create investment 87654321 2.0"); // invalid
+		input.add("deposit 12345678 100"); // valid
+		input.add("deposit 99999999 50"); // invalid
 
-		List<String> result = masterControl.start(commands);
+		List<String> result = masterControl.start(input);
 
 		assertEquals(2, result.size());
 		assertEquals("create investment 87654321 2.0", result.get(0));
@@ -114,11 +116,11 @@ public class MasterControlTest {
 
 	@Test
 	public void test_all_invalid_commands() {
-		List<String> commands = new ArrayList<>();
-		commands.add("create investment 87654321 2.0"); // invalid
-		commands.add("withdraw 12345678 50"); // invalid
+		List<String> input = new ArrayList<>();
+		input.add("create investment 87654321 2.0"); // invalid
+		input.add("withdraw 12345678 50"); // invalid
 
-		List<String> result = masterControl.start(commands);
+		List<String> result = masterControl.start(input);
 
 		assertEquals(2, result.size());
 		assertEquals("create investment 87654321 2.0", result.get(0));
@@ -127,11 +129,11 @@ public class MasterControlTest {
 
 	@Test
 	public void test_all_valid_commands() {
-		List<String> commands = new ArrayList<>();
-		commands.add("create checking 12345678 1.0"); // valid
-		commands.add("deposit 12345678 100"); // valid
+		List<String> input = new ArrayList<>();
+		input.add("create checking 12345678 1.0"); // valid
+		input.add("deposit 12345678 100"); // valid
 
-		List<String> result = masterControl.start(commands);
+		List<String> result = masterControl.start(input);
 
 		assertEquals(0, result.size());
 	}

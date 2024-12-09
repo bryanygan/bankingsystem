@@ -13,7 +13,7 @@ public class DepositCommand {
 		String accountId = parts[1];
 		double amount = Double.parseDouble(parts[2]);
 
-		Account account = bank.getAccountByID(accountId);
+		Account account = Bank.getAccountByID(accountId);
 		if (account == null) {
 			throw new IllegalArgumentException("Account does not exist: " + accountId);
 		}

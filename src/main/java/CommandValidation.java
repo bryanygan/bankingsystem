@@ -1,7 +1,46 @@
 
 public class CommandValidation {
+	private final Bank bank;
+	private final InvalidCommands invalidCommands;
+	private final CreateCommand createCommand;
+	private final DepositCommand depositCommand;
+	private final TransferCommandValidator transferCommandValidator;
+	private final WithdrawCommandValidator withdrawCommandValidator;
+	private final AccountNumberValidation accountNumberValidation;
 
-	private final AccountNumberValidation accountNumberValidation = new AccountNumberValidation();
+	public CommandValidation(Bank bank, InvalidCommands invalidCommands) {
+		this.bank = bank;
+		this.invalidCommands = invalidCommands;
+
+		this.createCommand = new CreateCommand(bank, invalidCommands);
+		this.depositCommand = new DepositCommand(bank);
+		this.transferCommandValidator = new TransferCommandValidator();
+		this.withdrawCommandValidator = new WithdrawCommandValidator();
+		this.accountNumberValidation = new AccountNumberValidation();
+	}
+
+	public boolean validateCommand(String command) {
+		String[] parts = CommandParsing.parseCommand(command);
+		if (parts == null || parts.length < 2) {
+			return false;
+		}
+
+		String commandType = parts[0].toLowerCase();
+		switch (commandType) {
+		case "create":
+			return validateCreateCommand(command);
+		case "deposit":
+			return validateDepositCommand(command);
+		case "withdraw":
+			return withdrawCommandValidator.isValidCommand(command, bank);
+		case "transfer":
+			return validateTransferCommand(command);
+		case "pass":
+			return validatePassCommand(command);
+		default:
+			return false;
+		}
+	}
 
 	public boolean validateCreateCommand(String command) {
 		String[] parts = CommandParsing.parseCommand(command);
@@ -9,7 +48,7 @@ public class CommandValidation {
 			return false;
 		}
 
-		String accountType = parts[1];
+		String accountType = parts[1].toLowerCase();
 		String accountNumber = parts[2];
 		String additionalParam = parts.length > 3 ? parts[3] : null;
 
@@ -19,6 +58,10 @@ public class CommandValidation {
 
 		if (!accountNumberValidation.isValidAccountNumber(accountNumber)
 				|| !accountNumberValidation.isUniqueAccountId(accountNumber)) {
+			return false;
+		}
+
+		if (!accountType.equals("savings") && !accountType.equals("checking") && !accountType.equals("cd")) {
 			return false;
 		}
 
@@ -43,6 +86,52 @@ public class CommandValidation {
 
 		accountNumberValidation.registerAccountId(accountNumber);
 		return true;
+	}
+
+	private boolean validateDepositCommand(String command) {
+		try {
+			String[] parts = CommandParsing.parseCommand(command);
+			if (parts == null) {
+				return false;
+			}
+
+			depositCommand.execute(parts);
+			return true;
+		} catch (IllegalArgumentException e) {
+			return false;
+		}
+	}
+
+	private boolean validateTransferCommand(String command) {
+		try {
+			String[] parts = command.trim().split("\\s+");
+			if (parts.length != 4) {
+				return false;
+			}
+
+			String fromId = parts[1];
+			String toId = parts[2];
+			double amount = Double.parseDouble(parts[3]);
+			TransferCommand transferCommand = new TransferCommand(fromId, toId, amount, command);
+
+			return transferCommandValidator.validate(transferCommand, bank);
+		} catch (NumberFormatException e) {
+			return false;
+		}
+	}
+
+	private boolean validatePassCommand(String command) {
+		String[] parts = CommandParsing.parseCommand(command);
+		if (parts == null || parts.length != 2 || !parts[0].equalsIgnoreCase("pass")) {
+			return false;
+		}
+
+		try {
+			int months = Integer.parseInt(parts[1]);
+			return months >= 1 && months <= 60;
+		} catch (NumberFormatException e) {
+			return false;
+		}
 	}
 
 	private boolean isPositiveDecimal(String str) {

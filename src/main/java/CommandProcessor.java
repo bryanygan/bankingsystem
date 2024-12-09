@@ -1,9 +1,10 @@
 public class CommandProcessor {
 	private CreateCommand createCommand;
 	private DepositCommand depositCommand;
+	private InvalidCommands invalidCommands;
 
 	public CommandProcessor(Bank bank) {
-		this.createCommand = new CreateCommand(bank);
+		this.createCommand = new CreateCommand(bank, invalidCommands);
 		this.depositCommand = new DepositCommand(bank);
 	}
 

@@ -1,12 +1,19 @@
 public class CreateCommand {
+	private final Bank bank;
+	private final InvalidCommands invalidCommands;
 
-	public CreateCommand(Bank bank) {
+	public CreateCommand(Bank bank, InvalidCommands invalidCommands) {
+		this.bank = bank;
+		this.invalidCommands = invalidCommands;
+
 	}
 
 	public void execute(String[] commandParts) {
 		if (commandParts.length < 4) {
-			throw new IllegalArgumentException("Invalid create command format");
+			invalidCommands.addInvalidCommand(String.join(" ", commandParts));
+			return;
 		}
+
 		String accountType = commandParts[1];
 		String accountId = commandParts[2];
 		double apr = Double.parseDouble(commandParts[3]);
@@ -22,15 +29,15 @@ public class CreateCommand {
 			break;
 		case "cd":
 			if (commandParts.length != 5) {
-				// no initial balance error
-				throw new IllegalArgumentException("Invalid Cd command format");
+				invalidCommands.addInvalidCommand(String.join(" ", commandParts));
+				return;
 			}
 			double initialBalance = Double.parseDouble(commandParts[4]);
 			CertificateOfDeposit cdAccount = new CertificateOfDeposit(accountId, apr, initialBalance);
 			Bank.addAccount(cdAccount);
 			break;
 		default:
-			throw new UnsupportedOperationException("Account type not supported");
+			invalidCommands.addInvalidCommand(String.join(" ", commandParts));
 		}
 	}
 }
