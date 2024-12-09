@@ -44,13 +44,10 @@ public class TransactionLoggerTest {
 
 		String formattedOutput = logger.generateOutput(accountState);
 
-		String expectedOutput = """
-				Savings 12345678 1000.50 0.60
-				Deposit 12345678 700.00
-				Withdraw 12345678 300.00
-				""";
+		String expectedOutput = "Savings 12345678 1000.50 0.60\n" + "Deposit 12345678 700.00\n"
+				+ "Withdraw 12345678 300.00";
 
-		assertEquals(expectedOutput.trim(), formattedOutput.trim());
+		assertEquals(expectedOutput, formattedOutput);
 	}
 
 	@Test
@@ -67,19 +64,13 @@ public class TransactionLoggerTest {
 		String formattedOutput1 = logger.generateOutput(accountState1);
 		String formattedOutput2 = logger.generateOutput(accountState2);
 
-		String expectedOutput1 = """
-				Savings 12345678 1000.50 0.60
-				Deposit 12345678 700.00
-				Transfer 12345678 300.00
-				""";
+		String expectedOutput1 = "Savings 12345678 1000.50 0.60\n" + "Deposit 12345678 700.00\n"
+				+ "Transfer 12345678 300.00";
 
-		String expectedOutput2 = """
-				Checking 98765432 300.00 0.01
-				Deposit 98765432 300.00
-				""";
+		String expectedOutput2 = "Checking 98765432 300.00 0.01\n" + "Deposit 98765432 300.00";
 
-		assertEquals(expectedOutput1.trim(), formattedOutput1.trim());
-		assertEquals(expectedOutput2.trim(), formattedOutput2.trim());
+		assertEquals(expectedOutput1, formattedOutput1);
+		assertEquals(expectedOutput2, formattedOutput2);
 	}
 
 }
